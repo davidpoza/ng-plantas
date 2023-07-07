@@ -16,25 +16,31 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {
     this.token = readCookie('token');
     this.isLoggedIn = !!this.token || false;
+    this.user = JSON.parse(localStorage.getItem('user') || "{}");
   }
 
   userIsLoggedIn() : boolean {
     return this.isLoggedIn;
   }
 
-  getToken() {
+  getToken() : string {
     return this.token;
+  }
+
+  getUserId() : number {
+    return this.user.id;
   }
 
   login(email: string, password: string) {
     this.http.post(`${config.baseUrl}/login`, { email, password })
       .subscribe((result : any) => {
         this.user = {
-          id: result.id,
+          id: result.user.id,
           name: result.user.name,
           email: result.user.email,
         };
         writeCookie('token', result.accessToken);
+        localStorage.setItem('user', JSON.stringify(this.user));
         this.isLoggedIn = true;
         this.router.navigate(['/']);
       });
