@@ -11,6 +11,7 @@ import { EditPlantScreenComponent } from './edit-plant-screen/edit-plant-screen.
 import { HeaderComponent } from './header/header.component';
 import { PlantListComponent } from './plant-list/plant-list.component';
 import { PlantItemComponent } from './plant-item/plant-item.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { PlantItemComponent } from './plant-item/plant-item.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
