@@ -12,6 +12,9 @@ import { HeaderComponent } from './header/header.component';
 import { PlantListComponent } from './plant-list/plant-list.component';
 import { PlantItemComponent } from './plant-item/plant-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginScreenComponent } from './login-screen/login-screen.component';
+import { AuthService } from './services/auth.service';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
@@ -23,14 +26,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     EditPlantScreenComponent,
     HeaderComponent,
     PlantListComponent,
-    PlantItemComponent
+    PlantItemComponent,
+    LoginScreenComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
