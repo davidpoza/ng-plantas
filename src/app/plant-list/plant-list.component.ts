@@ -8,7 +8,7 @@ import { IPlant } from '../models/Iplant';
   styleUrls: ['./plant-list.component.scss']
 })
 export class PlantListComponent implements OnInit {
-  private plantList!: IPlant[];
+  protected plantList!: IPlant[];
 
   constructor(private plantsService : PlantsService) {
 
