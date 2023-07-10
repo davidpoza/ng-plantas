@@ -1,0 +1,22 @@
+<div class="container">
+  <table>
+    <thead>
+      <tr>
+        <th>Agua</th>
+        <th>Luz</th>
+        <th>Toxicidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <mat-icon class="water" *ngFor="let i of indicatorArray" [ngStyle]="{ 'opacity': i > sheet.waterNum ? '0.3' : '1' }">water_drop</mat-icon>
+        </td>
+        <td>
+          <mat-icon class="light" *ngFor="let i of indicatorArray" [ngStyle]="{ 'opacity': i > sheet.lightNum ? '0.3' : '1' }">sunny</mat-icon>
+        </td>
+        <td [ngClass]="sheet.toxic ? 'toxic' : 'non-toxic'">{{sheet.toxic ? 'Tóxica' : 'No tóxica'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -12,7 +12,12 @@
 <mat-tab-group>
   <mat-tab label="Cuidados">
     <app-action-buttons></app-action-buttons>
+    <app-care-instructions [plant]="plant" [sheet]="sheet"></app-care-instructions>
   </mat-tab>
-  <mat-tab label="Diario">Diario</mat-tab>
-  <mat-tab label="Fotos">Fotos</mat-tab>
+  <mat-tab label="Diario">
+    <app-journal></app-journal>
+  </mat-tab>
+  <mat-tab label="Fotos">
+    <app-photos></app-photos>
+  </mat-tab>
 </mat-tab-group>

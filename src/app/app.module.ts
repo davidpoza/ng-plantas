@@ -23,6 +23,10 @@ import { AuthInterceptor } from './services/auth.interceptor';
 import { PlantsSheetsService } from './services/plants-sheets.service';
 import { PlantDetailScreenComponent } from './plant-detail-screen/plant-detail-screen.component';
 import { ActionButtonsComponent } from './plant-detail-screen/action-buttons/action-buttons.component';
+import { CareInstructionsComponent } from './plant-detail-screen/care-instructions/care-instructions.component';
+import { PhotosComponent } from './plant-detail-screen/photos/photos.component';
+import { JournalComponent } from './plant-detail-screen/journal/journal.component';
+import { VisualIndicatorsComponent } from './plant-detail-screen/visual-indicators/visual-indicators.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +43,10 @@ import { ActionButtonsComponent } from './plant-detail-screen/action-buttons/act
     ForbiddenComponent,
     PlantDetailScreenComponent,
     ActionButtonsComponent,
+    CareInstructionsComponent,
+    PhotosComponent,
+    JournalComponent,
+    VisualIndicatorsComponent,
   ],
   imports: [
     BrowserModule,

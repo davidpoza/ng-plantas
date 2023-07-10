@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+td {
+  padding: 10px;
+}
+
+.toxic {
+  font-weight: bold;
+  color: rgb(232, 23, 58);
+}
+
+.non-toxic {
+  font-weight: bold;
+  color: rgb(15, 189, 15);
+}
+
+.water {
+  color: rgb(67, 143, 214);
+}
+
+.light {
+  color: rgba(242, 189, 0, 0.931);
+}
