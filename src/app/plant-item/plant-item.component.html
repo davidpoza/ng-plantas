@@ -1,3 +1,10 @@
-<div>
-  <h3>{{ plant.name }}</h3>
+<div class="container">
+  <img [src]="plant.sheet?.photoURL" />
+  <div class="info">
+    <h3>{{ plant.name }}</h3>
+    <p>Ultimo riego: ....</p>
+  </div>
+  <div class="buttons">
+    <button></button>
+  </div>
 </div>

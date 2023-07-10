@@ -20,6 +20,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { MaterialModule } from './material/material.module';
 import { PlantsService } from './services/plants.service';
 import { AuthInterceptor } from './services/auth.interceptor';
+import { PlantsSheetsService } from './services/plants-sheets.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { AuthInterceptor } from './services/auth.interceptor';
   providers: [
     AuthService,
     PlantsService,
+    PlantsSheetsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

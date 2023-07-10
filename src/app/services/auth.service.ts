@@ -39,6 +39,7 @@ export class AuthService {
           name: result.user.name,
           email: result.user.email,
         };
+        this.token = result.accessToken;
         writeCookie('token', result.accessToken);
         localStorage.setItem('user', JSON.stringify(this.user));
         this.isLoggedIn = true;

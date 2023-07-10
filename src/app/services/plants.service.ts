@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { config } from 'src/config';
 import { IPlant } from '../models/Iplant';
 import { Observable, forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, concatMap } from 'rxjs/operators';
 import { PlantsSheetsService } from './plants-sheets.service';
 import { IPlantSheet } from '../models/IPlantSheet';
 
@@ -21,10 +21,11 @@ export class PlantsService {
 
   }
 
+
   getPlants() : Observable<any> {
     const plants$ : Observable<IPlant[]> = this.http.get<IPlant[]>(`${config.baseUrl}/plants?userId=${this.authService.getUserId()}`);
     return plants$.pipe(
-      map((plants: IPlant[]) => {
+      concatMap((plants: IPlant[]) => {
         const requests = plants.map((plant: any) =>
           this.http.get<IPlantSheet[]>(`${config.baseUrl}/sheets/${plant.id}?userId=${this.authService.getUserId()}`)
         );
