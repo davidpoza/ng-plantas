@@ -1,1 +1,13 @@
-<p>add-journal-screen works!</p>
+<app-header
+  [showBackBtn]="true"
+  screenTitle="Anadir entrada en diario"
+  [skinny]="true"
+></app-header>
+
+<div class="action">
+  <img src="/assets/water.png" alt="">
+  <div class="text">
+    <strong>{{ type | translateJournalType | capitalizeFirst }}</strong>
+    {{ plant.name }}
+  </div>
+</div>

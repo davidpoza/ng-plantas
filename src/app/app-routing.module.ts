@@ -5,10 +5,12 @@ import { authGuard } from './guards/auth.guard';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { PlantDetailScreenComponent } from './plant-detail-screen/plant-detail-screen.component';
+import { AddJournalScreenComponent } from './add-journal-screen/add-journal-screen.component';
 
 const routes: Routes = [
   { path: '', component: HomeScreenComponent, canActivate: [authGuard] },
   { path: 'plant/:id', component: PlantDetailScreenComponent, canActivate: [authGuard] },
+  { path: 'add-journal/:id/:type', component: AddJournalScreenComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginScreenComponent },
   { path: 'forbidden', component: ForbiddenComponent }
 ];

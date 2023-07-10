@@ -1,0 +1,17 @@
+.action {
+
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+
+  .text {
+    font-size: 1.1em;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  img {
+    width: 40px;
+  }
+}

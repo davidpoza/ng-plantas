@@ -11,6 +11,18 @@
   }
 }
 
+.skinny {
+  background-color: rgb(199, 226, 199);
+  height: 32px !important;
+}
+
+.titleBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+
 .headerWithBg {
   background-image: url("/assets/header.jpg");
   background-position: top 0px right 0px;

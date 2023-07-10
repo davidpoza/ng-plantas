@@ -1,8 +1,8 @@
 enum JournalEntryType {
-  watering = 0,
-  photo = 1,
-  mist = 2,
-  fertilize = 3
+  watering = 'watering',
+  photo = 'photo',
+  mist = 'mist',
+  fertilize = 'fertilize'
 }
 
 interface IJournalEntry {
@@ -14,4 +14,4 @@ interface IJournalEntry {
   plantId: number,
 }
 
-export { IJournalEntry };
+export { IJournalEntry, JournalEntryType };

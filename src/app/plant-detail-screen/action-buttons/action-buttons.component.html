@@ -1,17 +1,17 @@
 <div class="container">
-  <button>
+  <button (click)="goAddJournalScreen(plant.id, journalEntryType.watering)">
     <img src="assets/water.png">
     Regar
   </button>
-  <button>
+  <button (click)="goAddJournalScreen(plant.id, journalEntryType.mist)">
     <img src="assets/spray.png">
     Rociar
   </button>
-  <button>
+  <button (click)="goAddJournalScreen(plant.id, journalEntryType.fertilize)">
     <img src="assets/fertilizer.png">
     Fertilizante
   </button>
-  <button>
+  <button (click)="goAddJournalScreen(plant.id, journalEntryType.photo)">
     <img src="assets/camera.png">
     Añadir foto
   </button>

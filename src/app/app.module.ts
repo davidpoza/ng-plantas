@@ -27,6 +27,8 @@ import { CareInstructionsComponent } from './plant-detail-screen/care-instructio
 import { PhotosComponent } from './plant-detail-screen/photos/photos.component';
 import { JournalComponent } from './plant-detail-screen/journal/journal.component';
 import { VisualIndicatorsComponent } from './plant-detail-screen/visual-indicators/visual-indicators.component';
+import { CapitalizeFirstPipe } from './pipes/capitalize-first.pipe';
+import { TranslateJournalTypePipe } from './pipes/translate-journal-type.pipe';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { VisualIndicatorsComponent } from './plant-detail-screen/visual-indicato
     PhotosComponent,
     JournalComponent,
     VisualIndicatorsComponent,
+    CapitalizeFirstPipe,
+    TranslateJournalTypePipe,
   ],
   imports: [
     BrowserModule,
