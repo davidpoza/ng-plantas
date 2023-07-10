@@ -1,0 +1,13 @@
+.buttons {
+  display: flex;
+  justify-content: end;
+}
+
+button {
+  margin-top: 15px;
+  margin-right: 15px;
+  border: 1px solid green;
+  color: green;
+  width: 50px;
+  border-radius: 10px;
+}

@@ -2,5 +2,15 @@
   [showBackBtn]="true"
   [text]="plant.name"
   [subtext]="sheet.otherNames"
-  [imageAsIcon]="sheet?.photoURL"
+  [imageAsIcon]="sheet.photoURL"
 ></app-header>
+<div class="buttons">
+  <button>
+    <mat-icon>create</mat-icon>
+  </button>
+</div>
+<mat-tab-group>
+  <mat-tab label="Cuidados">Cuidados</mat-tab>
+  <mat-tab label="Diario">Diario</mat-tab>
+  <mat-tab label="Fotos">Fotos</mat-tab>
+</mat-tab-group>
