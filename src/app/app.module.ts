@@ -21,6 +21,7 @@ import { MaterialModule } from './material/material.module';
 import { PlantsService } from './services/plants.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { PlantsSheetsService } from './services/plants-sheets.service';
+import { PlantDetailScreenComponent } from './plant-detail-screen/plant-detail-screen.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { PlantsSheetsService } from './services/plants-sheets.service';
     PlantItemComponent,
     LoginScreenComponent,
     ForbiddenComponent,
+    PlantDetailScreenComponent,
   ],
   imports: [
     BrowserModule,

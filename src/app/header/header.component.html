@@ -1,5 +1,12 @@
-<div id="header">
+<div id="header" [ngClass]="backgroundImageURL ? 'headerWithBg' : ''">
+  <button *ngIf="showBackBtn" mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
   <h1>
-    Mis plantas
+    {{text}}
   </h1>
+  <h3 *ngIf="subtext">
+    {{subtext}}
+  </h3>
+  <span *ngIf="imageAsIcon" class="plantIcon" [ngStyle]="{ 'background-image': 'url(' + imageAsIcon + ')' }"></span>
 </div>

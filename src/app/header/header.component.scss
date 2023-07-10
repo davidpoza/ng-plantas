@@ -1,21 +1,49 @@
 @import "_variables";
 
 #header {
-  background-image: url("/assets/header.jpg");
-  background-position: top 0px right 0px;
-  background-repeat: no-repeat;
-  background-size: cover;
   max-width: 100%;
   height: 125px;
   padding: 20px;
-
+  display: flex;
+  flex-direction: column;
   @media only screen and (min-width: 480px) {
     height: 300px;
   }
 }
 
+.headerWithBg {
+  background-image: url("/assets/header.jpg");
+  background-position: top 0px right 0px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 h1 {
   font-size: 3em;
   font-weight: bold;
+  z-index: 999;
+  position: relative;
+}
 
+h3 {
+  color: grey;
+}
+
+button {
+  margin-top: -20px;
+  margin-left: -20px;
+}
+
+.plantIcon {
+  position: absolute;
+  z-index: 800;
+  top: -40px;
+  right: -40px;
+  padding: 0;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 1px solid #b1afaf;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

@@ -1,5 +1,5 @@
 <div class="container">
-  <app-header></app-header>
+  <app-header [text]="appTitle" backgroundImageURL="/assets/header.jpg"></app-header>
   <div class="formContainer">
     <h2>Inicia sesión</h2>
     <form [formGroup]="contactForm" (submit)="onSubmit()">

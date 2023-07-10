@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container" (click)="onClick(plant.id)">
   <img [src]="plant.sheet?.photoURL" />
-  <div class="info">
+  <div class="info" >
     <h3>{{ plant.name }}</h3>
     <p>Ultimo riego: ....</p>
   </div>

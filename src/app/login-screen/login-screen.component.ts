@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { config } from 'src/config';
 @Component({
   selector: 'app-login-screen',
   templateUrl: './login-screen.component.html',
@@ -8,6 +9,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginScreenComponent {
   contactForm! : FormGroup;
+  appTitle: string = config.appTitle;
 
   constructor (private readonly fb: FormBuilder, private authService: AuthService) {
     this.contactForm = this.initForm();
