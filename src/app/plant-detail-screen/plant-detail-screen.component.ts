@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+
 import { IPlant } from '../models/Iplant';
 import { PlantsService } from '../services/plants.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PlantsSheetsService } from '../services/plants-sheets.service';
+import { JournalService } from 'src/app/services/journal.service';
 import { IPlantSheet } from '../models/IPlantSheet';
+import { IJournalEntry } from 'src/app/models/IJournalEntry';
 
 @Component({
   selector: 'app-plant-detail-screen',
@@ -13,12 +16,13 @@ import { IPlantSheet } from '../models/IPlantSheet';
 export class PlantDetailScreenComponent implements OnInit {
   plant!: IPlant;
   sheet!: IPlantSheet;
+  journal!: IJournalEntry[];
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private plantsService: PlantsService,
     private plantSheetService: PlantsSheetsService,
+    private journalService: JournalService
   ) {
 
   }
@@ -40,10 +44,17 @@ export class PlantDetailScreenComponent implements OnInit {
               this.sheet = { ...sheetResponse };
             });
         });
-
-
     }
 
+  }
+
+  onTabChange(tabIndex: number) {
+    if (tabIndex === 1) {
+      this.journalService.getJournalEntries(this.plant.id)
+      .subscribe(journalResponse => {
+        this.journal = [...journalResponse];
+      });
+    }
   }
 
 }

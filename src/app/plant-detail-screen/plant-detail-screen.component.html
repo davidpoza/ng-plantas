@@ -9,13 +9,13 @@
     <mat-icon>create</mat-icon>
   </button>
 </div>
-<mat-tab-group>
+<mat-tab-group (selectedIndexChange)="onTabChange($event)">
   <mat-tab label="Cuidados">
     <app-action-buttons [plant]="plant"></app-action-buttons>
     <app-care-instructions [plant]="plant" [sheet]="sheet"></app-care-instructions>
   </mat-tab>
   <mat-tab label="Diario">
-    <app-journal></app-journal>
+    <app-journal [journal]="journal"></app-journal>
   </mat-tab>
   <mat-tab label="Fotos">
     <app-photos></app-photos>

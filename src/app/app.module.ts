@@ -29,6 +29,7 @@ import { JournalComponent } from './plant-detail-screen/journal/journal.componen
 import { VisualIndicatorsComponent } from './plant-detail-screen/visual-indicators/visual-indicators.component';
 import { CapitalizeFirstPipe } from './pipes/capitalize-first.pipe';
 import { TranslateJournalTypePipe } from './pipes/translate-journal-type.pipe';
+import { JournalService } from './services/journal.service';
 
 @NgModule({
   declarations: [
@@ -62,9 +63,11 @@ import { TranslateJournalTypePipe } from './pipes/translate-journal-type.pipe';
     HttpClientModule
   ],
   providers: [
+    TranslateJournalTypePipe,
     AuthService,
     PlantsService,
     PlantsSheetsService,
+    JournalService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -16,9 +16,9 @@
   <p>
     <mat-form-field appearance="outline">
       <mat-label>Fecha</mat-label>
-      <input matInput [matDatepicker]="picker">
+      <input matInput [matDatepicker]="picker"  formControlName="date" required>
       <mat-hint>DD/MM/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker" ormControlName="date"></mat-datepicker-toggle>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <!-- <mat-error *ngIf="contactForm.invalid">{{getErrorMessage()}}</mat-error> -->
     </mat-form-field>
@@ -32,6 +32,6 @@
   </p>
   <p class="buttons">
     <button mat-raised-button (click)="goBack()">Cancelar</button>
-    <button mat-raised-button color="primary">Añadir entrada</button>
+    <button mat-raised-button color="primary" [disabled]="!journalForm.valid">Añadir entrada</button>
   </p>
 </form>
