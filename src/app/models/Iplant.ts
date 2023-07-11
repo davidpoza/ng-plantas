@@ -1,3 +1,4 @@
+import { IJournalEntry } from "./IJournalEntry";
 import { IPlantSheet } from "./IPlantSheet";
 
 interface IPlant {
@@ -8,6 +9,7 @@ interface IPlant {
   userId: number,
   sheetId: number,
   sheet: IPlantSheet | undefined,
+  lastJournal: IJournalEntry | undefined
 }
 
 export { IPlant };

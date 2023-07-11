@@ -26,13 +26,25 @@ export class PlantsService {
     const plants$ : Observable<IPlant[]> = this.http.get<IPlant[]>(`${config.baseUrl}/plants?userId=${this.authService.getUserId()}`);
     return plants$.pipe(
       concatMap((plants: IPlant[]) => {
-        const requests = plants.map((plant: any) =>
+        const sheetRequests = plants.map((plant: any) =>
           this.http.get<IPlantSheet[]>(`${config.baseUrl}/sheets/${plant.id}?userId=${this.authService.getUserId()}`)
         );
-        return forkJoin(requests).pipe(
+        return forkJoin(sheetRequests).pipe(
           map((sheets: any[]) => {
             return plants.map((plant: IPlant, index: number) => {
               return { ...plant, sheet: sheets[index] };
+            });
+          })
+        );
+      }),
+      concatMap((plants: IPlant[]) => {
+        const journalRequests = plants.map((plant: any) =>
+          this.http.get<IPlantSheet[]>(`${config.baseUrl}/journalEntries?plantId=${plant.id}&userId=${this.authService.getUserId()}&sort=timestamp&order=desc&type=watering&_limit=1`)
+        );
+        return forkJoin(journalRequests).pipe(
+          map((journal: any[]) => {
+            return plants.map((plant: IPlant, index: number) => {
+              return { ...plant, lastJournal: journal[index]?.[0] };
             });
           })
         );

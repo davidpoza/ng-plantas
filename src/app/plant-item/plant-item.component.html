@@ -2,7 +2,7 @@
   <img [src]="plant.sheet?.photoURL" />
   <div class="info" >
     <h3>{{ plant.name }}</h3>
-    <p>Ultimo riego: ....</p>
+    <p>{{ (plant.lastJournal?.text || 'No hay datos del último riego') | capitalizeFirst }}</p>
   </div>
   <div class="buttons">
     <button mat-icon-button [matMenuTriggerFor]="menu">
