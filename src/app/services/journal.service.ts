@@ -15,10 +15,14 @@ export class JournalService {
   }
 
   getJournalEntries(plantId: number) : Observable<IJournalEntry[]> {
-    return this.http.get<IJournalEntry[]>(`${config.baseUrl}/journalEntries?plantId=${plantId}&userId=${this.authService.getUserId()}`);
+    return this.http.get<IJournalEntry[]>(`${config.baseUrl}/journalEntries?plantId=${plantId}&userId=${this.authService.getUserId()}&_sort=timestamp&_order=desc`);
   }
 
   addJournalEntry(body: IJournalEntryPost) : Observable<IJournalEntry> {
     return this.http.post<IJournalEntry>(`${config.baseUrl}/journalEntries`, body);
+  }
+
+  deleteJournalEntry(entryId: number) : Observable<IJournalEntry> {
+    return this.http.delete<IJournalEntry>(`${config.baseUrl}/journalEntries/${entryId}?userId=${this.authService.getUserId()}`);
   }
 }

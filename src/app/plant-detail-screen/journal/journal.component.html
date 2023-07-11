@@ -1,3 +1,3 @@
 <div *ngFor="let entry of journal" class="container">
-  <app-journal-item [entry]="entry"></app-journal-item>
+  <app-journal-item [entry]="entry" (refreshJournal)="propagateEvent()"></app-journal-item>
 </div>

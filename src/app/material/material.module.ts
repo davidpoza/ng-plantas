@@ -5,6 +5,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatMenuModule} from '@angular/material/menu';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { LOCALE_ID } from '@angular/core';
@@ -37,6 +38,7 @@ const MY_DATE_FORMATS = {
     MatDatepickerModule,
     MatMomentDateModule,
     MatTabsModule,
+    MatMenuModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' },

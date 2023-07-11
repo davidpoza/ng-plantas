@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { IPlant } from '../models/Iplant';
@@ -17,6 +17,7 @@ export class PlantDetailScreenComponent implements OnInit {
   plant!: IPlant;
   sheet!: IPlantSheet;
   journal!: IJournalEntry[];
+  @Output() refreshJournal: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -51,10 +52,17 @@ export class PlantDetailScreenComponent implements OnInit {
   onTabChange(tabIndex: number) {
     if (tabIndex === 1) {
       this.journalService.getJournalEntries(this.plant.id)
+        .subscribe(journalResponse => {
+          this.journal = [...journalResponse];
+        });
+    }
+  }
+
+  refresh() {
+    this.journalService.getJournalEntries(this.plant.id)
       .subscribe(journalResponse => {
         this.journal = [...journalResponse];
       });
-    }
   }
 
 }

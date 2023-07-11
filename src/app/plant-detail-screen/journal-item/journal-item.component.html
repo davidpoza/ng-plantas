@@ -5,6 +5,18 @@
     <p>{{ entry.text | capitalizeFirst }}</p>
   </div>
   <div class="buttons">
-    <button></button>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onEdit(entry.id)">
+        <mat-icon>edit</mat-icon>
+        <span>Editar</span>
+      </button>
+      <button mat-menu-item (click)="onDelete(entry.id)">
+        <mat-icon>delete</mat-icon>
+        <span>Borrar</span>
+      </button>
+    </mat-menu>
   </div>
 </div>

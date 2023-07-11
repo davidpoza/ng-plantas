@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { IJournalEntry } from 'src/app/models/IJournalEntry';
 
@@ -10,11 +10,13 @@ import { IJournalEntry } from 'src/app/models/IJournalEntry';
 })
 export class JournalComponent{
   @Input() journal!: IJournalEntry[];
-
+  @Output() refreshJournal: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {
   }
 
-
+  propagateEvent() {
+    this.refreshJournal.emit();
+  }
 
 }
