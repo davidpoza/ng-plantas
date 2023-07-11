@@ -32,6 +32,7 @@
   </p>
   <p class="buttons">
     <button mat-raised-button (click)="goBack()">Cancelar</button>
-    <button mat-raised-button color="primary" [disabled]="!journalForm.valid">Añadir entrada</button>
+    <button *ngIf="!isEdit" mat-raised-button color="primary" [disabled]="!journalForm.valid">Añadir entrada</button>
+    <button *ngIf="isEdit" mat-raised-button color="primary" [disabled]="!journalForm.valid">Salvar cambios</button>
   </p>
 </form>

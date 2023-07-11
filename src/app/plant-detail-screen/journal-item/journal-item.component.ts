@@ -3,6 +3,8 @@ import { IJournalEntry } from 'src/app/models/IJournalEntry';
 import moment from 'moment';
 import { getJournalImageSrcFromType } from 'src/app/utils/helpers';
 import { JournalService } from 'src/app/services/journal.service';
+import { Router } from '@angular/router';
+import { IPlant } from 'src/app/models/Iplant';
 
 
 @Component({
@@ -12,11 +14,15 @@ import { JournalService } from 'src/app/services/journal.service';
 })
 export class JournalItemComponent implements OnInit {
   @Input() entry!: IJournalEntry;
+  @Input() plant!: IPlant;
   @Output() refreshJournal: EventEmitter<void> = new EventEmitter<void>();
   formattedDate!: string;
   imageSrc!: string;
 
-  constructor(private journalService: JournalService) {
+  constructor(
+    private journalService: JournalService,
+    private router: Router
+  ) {
 
   }
 
@@ -33,7 +39,7 @@ export class JournalItemComponent implements OnInit {
   }
 
   onEdit(entryId: number) {
-
+    this.router.navigate([`edit-journal/${entryId}`], { state: { plant: this.plant, entry: this.entry } });
   }
 
 }

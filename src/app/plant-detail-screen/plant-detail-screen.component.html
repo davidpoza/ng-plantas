@@ -15,7 +15,7 @@
     <app-care-instructions [plant]="plant" [sheet]="sheet"></app-care-instructions>
   </mat-tab>
   <mat-tab label="Diario">
-    <app-journal [journal]="journal" (refreshJournal)="refresh()"></app-journal>
+    <app-journal [journal]="journal" [plant]="plant" (refreshJournal)="refresh()"></app-journal>
   </mat-tab>
   <mat-tab label="Fotos">
     <app-photos></app-photos>

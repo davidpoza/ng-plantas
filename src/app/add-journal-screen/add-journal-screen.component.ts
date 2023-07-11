@@ -5,7 +5,7 @@ import moment from 'moment';
 import {  ActivatedRoute, Params, Router } from '@angular/router';
 
 import { IPlant } from '../models/Iplant';
-import { JournalEntryType } from '../models/IJournalEntry';
+import { IJournalEntry, JournalEntryType } from '../models/IJournalEntry';
 import { TranslateJournalTypePipe } from '../pipes/translate-journal-type.pipe';
 import { JournalService } from '../services/journal.service';
 import { AuthService } from '../services/auth.service';
@@ -16,9 +16,12 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./add-journal-screen.component.scss']
 })
 export class AddJournalScreenComponent implements OnInit {
-  plant: IPlant;
+  plant!: IPlant;
+  journalEntry!: IJournalEntry;
   type!: JournalEntryType;
   journalForm! : FormGroup;
+  isEdit: boolean;
+  activeRoutePath!: string;
 
   constructor(
     private _location: Location,
@@ -29,25 +32,44 @@ export class AddJournalScreenComponent implements OnInit {
     private journalService: JournalService,
     private authService : AuthService,
   ) {
-    this.plant = <IPlant>this.router.getCurrentNavigation()?.extras.state;
+    this.activeRoutePath = this.router.url;
+    this.isEdit = this.activeRoutePath.startsWith('/edit-journal');
+
+
+    if (this.isEdit) {
+      this.journalEntry = <IJournalEntry>this.router.getCurrentNavigation()?.extras.state?.['entry'];
+      this.plant = <IPlant>this.router.getCurrentNavigation()?.extras.state?.['plant'];
+
+    } else {
+      this.plant = <IPlant>this.router.getCurrentNavigation()?.extras.state;
+    }
+
     this.journalForm = this.initForm();
   }
 
   initForm() : FormGroup {
+    if (!this.isEdit) {
+      this.route.params.subscribe(
+        (params: Params) => {
+          this.type = params['type'];
+        }
+      )
+    } else {
+      this.type = this.journalEntry.type;
+    }
+
     return this.fb.group({
-      date: [moment(), [Validators.required]],
-      text: ['', [Validators.required]],
+      date: [this.isEdit ? moment(this.journalEntry.timestamp * 1000) : moment(), [Validators.required]],
+      text: [
+        this.isEdit
+          ? this.journalEntry.text
+          : `${this.translateJournalType.transform(this.type)} realizado a las ${moment().format('HH:mm')}`,
+        [Validators.required]],
     })
   }
 
   ngOnInit() {
-    this.route.params.subscribe(
-      (params: Params) => {
-        this.type = params['type'];
-      }
-    )
 
-    this.journalForm.get('text')?.setValue(`${this.translateJournalType.transform(this.type)} realizado a las ${moment().format('HH:mm')}`);
   }
 
   goBack() {
@@ -56,17 +78,31 @@ export class AddJournalScreenComponent implements OnInit {
 
 
   addJournal() {
-    console.log(">",this.journalForm.get('text')?.value)
-    this.journalService.addJournalEntry({
-      plantId: this.plant.id,
-      text: this.journalForm.get('text')?.value,
-      type: this.type,
-      timestamp: new Date().getTime() / 1000,
-      photoURL: '',
-      userId: this.authService.getUserId(),
-    })
-      .subscribe(result => {
-        this._location.back();
-      });
+    if (this.isEdit) {
+      this.journalService.editJournalEntry(this.journalEntry.id, {
+        plantId: this.plant.id,
+        text: this.journalForm.get('text')?.value,
+        type: this.journalEntry.type,
+        timestamp: moment(this.journalForm.get('date')?.value, 'DD/MM/YYYY').unix(),
+        photoURL: this.journalEntry.photoURL,
+        userId: this.authService.getUserId(),
+      })
+        .subscribe(result => {
+          this._location.back();
+        });
+    } else {
+      this.journalService.addJournalEntry({
+        plantId: this.plant.id,
+        text: this.journalForm.get('text')?.value,
+        type: this.type,
+        timestamp: moment(this.journalForm.get('date')?.value, 'DD/MM/YYYY').unix(),
+        photoURL: '',
+        userId: this.authService.getUserId(),
+      })
+        .subscribe(result => {
+          this._location.back();
+        });
+    }
+
   }
 }

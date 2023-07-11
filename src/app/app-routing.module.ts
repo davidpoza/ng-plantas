@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: '', component: HomeScreenComponent, canActivate: [authGuard] },
   { path: 'plant/:id', component: PlantDetailScreenComponent, canActivate: [authGuard] },
   { path: 'add-journal/:id/:type', component: AddJournalScreenComponent, canActivate: [authGuard] },
+  { path: 'edit-journal/:id', component: AddJournalScreenComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginScreenComponent },
   { path: 'forbidden', component: ForbiddenComponent }
 ];

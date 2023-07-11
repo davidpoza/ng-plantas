@@ -25,4 +25,8 @@ export class JournalService {
   deleteJournalEntry(entryId: number) : Observable<IJournalEntry> {
     return this.http.delete<IJournalEntry>(`${config.baseUrl}/journalEntries/${entryId}?userId=${this.authService.getUserId()}`);
   }
+
+  editJournalEntry(entryId: number, body: IJournalEntryPost) {
+    return this.http.put<IJournalEntry>(`${config.baseUrl}/journalEntries/${entryId}?userId=${this.authService.getUserId()}`, body);
+  }
 }
