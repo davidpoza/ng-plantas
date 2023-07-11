@@ -35,7 +35,7 @@ export class AddJournalScreenComponent implements OnInit {
 
   initForm() : FormGroup {
     return this.fb.group({
-      date: ['', [Validators.required]],
+      date: [moment(), [Validators.required]],
       text: ['', [Validators.required]],
     })
   }
