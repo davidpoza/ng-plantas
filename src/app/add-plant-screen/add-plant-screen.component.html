@@ -1,0 +1,30 @@
+<app-header
+  [showBackBtn]="true"
+  screenTitle="Anadir nueva planta"
+  [skinny]="true"
+></app-header>
+
+<form [formGroup]="plantForm" (submit)="addPlant()">
+  <p>
+    Tipo: {{sheet?.name}}
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input type="text" matInput formControlName="name" required>
+      <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Habitación</mat-label>
+      <input type="text" matInput formControlName="place" required>
+      <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+    </mat-form-field>
+  </p>
+  <p class="buttons">
+    <button mat-raised-button (click)="goBack()">Cancelar</button>
+    <button *ngIf="!isEdit" mat-raised-button color="primary" [disabled]="!plantForm.valid">Añadir planta</button>
+    <button *ngIf="isEdit" mat-raised-button color="primary" [disabled]="!plantForm.valid">Salvar cambios</button>
+  </p>
+</form>

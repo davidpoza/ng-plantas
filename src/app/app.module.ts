@@ -31,6 +31,8 @@ import { CapitalizeFirstPipe } from './pipes/capitalize-first.pipe';
 import { TranslateJournalTypePipe } from './pipes/translate-journal-type.pipe';
 import { JournalService } from './services/journal.service';
 import { JournalItemComponent } from './plant-detail-screen/journal-item/journal-item.component';
+import { AddPlantScreenComponent } from './add-plant-screen/add-plant-screen.component';
+import { SearchItemComponent } from './search-screen/search-item/search-item.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { JournalItemComponent } from './plant-detail-screen/journal-item/journal
     CapitalizeFirstPipe,
     TranslateJournalTypePipe,
     JournalItemComponent,
+    AddPlantScreenComponent,
+    SearchItemComponent,
   ],
   imports: [
     BrowserModule,

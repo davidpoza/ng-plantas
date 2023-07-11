@@ -1,3 +1,10 @@
-<div *ngFor="let plant of plantList">
-  <app-plant-item [plant]="plant" (refreshPlantList)="refresh()"></app-plant-item>
+<div>
+  <div class="buttons">
+    <button (click)="goAddPlant()">Añadir planta</button>
+  </div>
+  <div *ngFor="let plant of plantList">
+    <app-plant-item [plant]="plant" (refreshPlantList)="refresh()"></app-plant-item>
+  </div>
+
 </div>
+

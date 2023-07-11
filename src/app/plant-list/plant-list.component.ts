@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlantsService } from '../services/plants.service';
 import { IPlant } from '../models/Iplant';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plant-list',
@@ -10,7 +11,10 @@ import { IPlant } from '../models/Iplant';
 export class PlantListComponent implements OnInit {
   protected plantList!: IPlant[];
 
-  constructor(private plantsService : PlantsService) {
+  constructor(
+    private plantsService : PlantsService,
+    private router: Router,
+  ) {
 
   }
 
@@ -28,5 +32,9 @@ export class PlantListComponent implements OnInit {
         console.log(result)
         this.plantList = result;
       });
+  }
+
+  goAddPlant() {
+    this.router.navigate(['search-plant']);
   }
 }

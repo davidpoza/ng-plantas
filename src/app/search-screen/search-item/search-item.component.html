@@ -1,0 +1,7 @@
+<div class="container">
+  <img [src]="sheet.photoURL" (click)="onClick(sheet.id)" />
+  <div class="info" (click)="onClick(sheet.id)">
+    <h3>{{ sheet.name }}</h3>
+    <p class="location">{{ sheet.otherNames }}</p>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  padding: 10px;
+
+  button {
+    border: 1px solid green;
+    color: green;
+    background-color: white;
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+
+    &:hover {
+      color: white;
+      background-color: green;
+    }
+
+
+  }
+}

@@ -17,4 +17,9 @@ export class PlantsSheetsService {
   getPlantSheetById(id: number) : Observable<IPlantSheet> {
     return this.http.get<IPlantSheet>(`${config.baseUrl}/sheets/${id}?userId=${this.authService.getUserId()}`);
   }
+
+  getAll() : Observable<IPlantSheet[]> {
+    return this.http.get<IPlantSheet[]>(`${config.baseUrl}/sheets`);
+  }
+
 }

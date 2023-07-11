@@ -1,1 +1,9 @@
-<p>search-screen works!</p>
+<app-header
+  [showBackBtn]="true"
+  screenTitle="Anadir nueva planta"
+  [skinny]="true"
+></app-header>
+
+<div *ngFor="let sheet of sheets">
+  <app-search-item [sheet]="sheet"></app-search-item>
+</div>
