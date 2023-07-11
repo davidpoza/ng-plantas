@@ -21,4 +21,12 @@ export class PlantListComponent implements OnInit {
         this.plantList = result;
       });
   }
+
+  refresh() {
+    this.plantsService.getPlants()
+      .subscribe((result) => {
+        console.log(result)
+        this.plantList = result;
+      });
+  }
 }

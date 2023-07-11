@@ -27,7 +27,7 @@ export class PlantsService {
     return plants$.pipe(
       concatMap((plants: IPlant[]) => {
         const sheetRequests = plants.map((plant: any) =>
-          this.http.get<IPlantSheet[]>(`${config.baseUrl}/sheets/${plant.id}?userId=${this.authService.getUserId()}`)
+          this.http.get<IPlantSheet[]>(`${config.baseUrl}/sheets/${plant.sheetId}?userId=${this.authService.getUserId()}`)
         );
         return forkJoin(sheetRequests).pipe(
           map((sheets: any[]) => {
@@ -54,5 +54,9 @@ export class PlantsService {
 
   getPlantById(id: number) : Observable<IPlant> {
     return this.http.get<IPlant>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`);
+  }
+
+  deletePlant(id: number) : Observable<IPlant> {
+    return this.http.delete<IPlant>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`);
   }
 }
