@@ -1,0 +1,217 @@
+{
+  "plants": [
+    {
+      "id": 1,
+      "name": "Chamadorea Elegans",
+      "place": "Oficina",
+      "sheetId": 1,
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "name": "Monstera",
+      "place": "Terraza",
+      "sheetId": 2,
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "name": "Poto",
+      "place": "Salón",
+      "sheetId": 1,
+      "userId": 2
+    }
+  ],
+  "journalEntries": [
+    {
+      "plantId": 1,
+      "text": "riego realizado a las 09:48",
+      "type": "watering",
+      "timestamp": 1689061727,
+      "photoURL": "",
+      "userId": 1,
+      "id": 2
+    },
+    {
+      "plantId": 1,
+      "text": "tomar una foto realizado a las 12:57",
+      "type": "photo",
+      "timestamp": 1689073043.94,
+      "photoURL": "",
+      "userId": 1,
+      "id": 6
+    },
+    {
+      "plantId": 1,
+      "text": "pulverizar agua realizado a las 13:25",
+      "type": "mist",
+      "timestamp": 1689074746.702,
+      "photoURL": "",
+      "userId": 1,
+      "id": 7
+    },
+    {
+      "plantId": 1,
+      "text": "pulverizar agua realizado a las 13:34",
+      "type": "mist",
+      "timestamp": 1689075285,
+      "photoURL": "",
+      "userId": 1,
+      "id": 8
+    },
+    {
+      "plantId": 1,
+      "text": "riego realizado a las 13:34",
+      "type": "watering",
+      "timestamp": 1689075297,
+      "photoURL": "",
+      "userId": 1,
+      "id": 9
+    },
+    {
+      "plantId": 1,
+      "text": "agregar fertilizante realizado a las 13:37",
+      "type": "fertilize",
+      "timestamp": 1689075472,
+      "photoURL": "",
+      "userId": 1,
+      "id": 10
+    },
+    {
+      "plantId": 1,
+      "text": "agregar fertilizante realizado a las 13:38",
+      "type": "fertilize",
+      "timestamp": 1689075512,
+      "photoURL": "",
+      "userId": 1,
+      "id": 11
+    },
+    {
+      "plantId": 1,
+      "text": "tomar una foto realizado a las 13:41",
+      "type": "photo",
+      "timestamp": 1689075670,
+      "photoURL": "",
+      "userId": 1,
+      "id": 12
+    },
+    {
+      "plantId": 1,
+      "text": "riego realizado a las 13:41!!",
+      "type": "watering",
+      "timestamp": 1689075692,
+      "photoURL": "",
+      "userId": 1,
+      "id": 13
+    },
+    {
+      "plantId": 1,
+      "text": "pulverizar agua realizado a las 13:45",
+      "type": "mist",
+      "timestamp": 1689076001.226,
+      "photoURL": "",
+      "userId": 1,
+      "id": 14
+    },
+    {
+      "plantId": 1,
+      "text": "pulverizar agua realizado a las 13:46",
+      "type": "mist",
+      "timestamp": 1689076019,
+      "photoURL": "",
+      "userId": 1,
+      "id": 15
+    },
+    {
+      "plantId": 1,
+      "text": "pulverizar agua realizado a las 13:50 ja",
+      "type": "mist",
+      "timestamp": 1689285600,
+      "photoURL": "",
+      "userId": 1,
+      "id": 16
+    },
+    {
+      "plantId": 1,
+      "text": "pulverizar agua realizado a las 13:59. 👦probando",
+      "type": "mist",
+      "timestamp": 1689199200,
+      "photoURL": "",
+      "userId": 1,
+      "id": 17
+    },
+    {
+      "plantId": 1,
+      "text": "pulverizar agua realizado a las 15:07",
+      "type": "mist",
+      "timestamp": 1689080854,
+      "photoURL": "",
+      "userId": 1,
+      "id": 18
+    },
+    {
+      "plantId": 2,
+      "text": "riego realizado a las 15:23",
+      "type": "watering",
+      "timestamp": 1689081799,
+      "photoURL": "",
+      "userId": 1,
+      "id": 19
+    }
+  ],
+  "reminders": [
+    {
+      "id": 1,
+      "plantId": 1,
+      "days": [
+        3,
+        7
+      ],
+      "time": "11:00"
+    }
+  ],
+  "sheets": [
+    {
+      "id": 1,
+      "name": "Chamadorea Elegans",
+      "otherNames": "Palmera de salón",
+      "waterNum": 1,
+      "waterText": "cuánto hay que regarla",
+      "lightNum": 1,
+      "lightText": "Qué cantidad de luz necesita",
+      "toxic": true,
+      "toxicText": "Es tóxica para gatos",
+      "soilText": "Qué tipo de suelo necesita",
+      "repottingText": "Cada cuento hay que replantarla",
+      "fertilizationText": "Cada cuanto hay que darle fertilizante",
+      "photoURL": "https://www.ikea.com/es/en/images/products/chamaedorea-elegans-potted-plant-parlour-palm__0797381_pe766847_s5.jpg?f=xl"
+    },
+    {
+      "id": 2,
+      "name": "Monstera",
+      "otherNames": "Costilla de Adán",
+      "waterNum": 1,
+      "waterText": "cuánto hay que regarla",
+      "lightNum": 1,
+      "lightText": "Qué cantidad de luz necesita",
+      "toxic": true,
+      "toxicText": "Es tóxica para gatos",
+      "soilText": "Qué tipo de suelo necesita",
+      "repottingText": "Cada cuento hay que replantarla",
+      "fertilizationText": "Cada cuanto hay que darle fertilizante",
+      "photoURL": "https://begreen.imgix.net/60015d29a796f161542575.jpg?w=1200&h=1200&auto=format"
+    }
+  ],
+  "users": [
+    {
+      "email": "pepe@gmail.com",
+      "password": "$2a$10$2dZkNxgZbvngNUH0aOcy5O.xpb/ZzUf4dMWWTeTHO4V1NVYEkYGE.",
+      "id": 1
+    },
+    {
+      "email": "pepa@gmail.com",
+      "password": "$2a$10$2dZkNxgZbvngNUH0aOcy5O.xpb/ZzUf4dMWWTeTHO4V1NVYEkYGE.",
+      "id": 2
+    }
+  ]
+}
