@@ -30,6 +30,7 @@ import { VisualIndicatorsComponent } from './plant-detail-screen/visual-indicato
 import { CapitalizeFirstPipe } from './pipes/capitalize-first.pipe';
 import { TranslateJournalTypePipe } from './pipes/translate-journal-type.pipe';
 import { JournalService } from './services/journal.service';
+import { JournalItemComponent } from './plant-detail-screen/journal-item/journal-item.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { JournalService } from './services/journal.service';
     VisualIndicatorsComponent,
     CapitalizeFirstPipe,
     TranslateJournalTypePipe,
+    JournalItemComponent,
   ],
   imports: [
     BrowserModule,

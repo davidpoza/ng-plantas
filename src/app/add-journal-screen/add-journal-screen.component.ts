@@ -61,7 +61,7 @@ export class AddJournalScreenComponent implements OnInit {
       plantId: this.plant.id,
       text: this.journalForm.get('text')?.value,
       type: this.type,
-      timestamp: new Date().getTime(),
+      timestamp: new Date().getTime() / 1000,
       photoURL: '',
       userId: this.authService.getUserId(),
     })
