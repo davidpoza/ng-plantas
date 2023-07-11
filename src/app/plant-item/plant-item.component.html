@@ -1,6 +1,6 @@
-<div class="container" (click)="onClick(plant.id)">
-  <img [src]="plant.sheet?.photoURL" />
-  <div class="info" >
+<div class="container">
+  <img [src]="plant.sheet?.photoURL" (click)="onClick(plant.id)" />
+  <div class="info" (click)="onClick(plant.id)">
     <h3>{{ plant.name }}</h3>
     <p>{{ (plant.lastJournal?.text || 'No hay datos del último riego') | capitalizeFirst }}</p>
   </div>
