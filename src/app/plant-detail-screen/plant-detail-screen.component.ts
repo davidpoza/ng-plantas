@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { IPlant } from '../models/Iplant';
 import { PlantsService } from '../services/plants.service';
@@ -21,6 +21,7 @@ export class PlantDetailScreenComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private plantsService: PlantsService,
     private plantSheetService: PlantsSheetsService,
     private journalService: JournalService
@@ -63,6 +64,10 @@ export class PlantDetailScreenComponent implements OnInit {
       .subscribe(journalResponse => {
         this.journal = [...journalResponse];
       });
+  }
+
+  goToEditPlant() {
+    this.router.navigate([`edit-plant`], { state: { plant: this.plant, sheet: this.sheet }});
   }
 
 }

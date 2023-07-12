@@ -56,6 +56,10 @@ export class PlantsService {
     return this.http.post<IPlantPost>(`${config.baseUrl}/plants?userId=${this.authService.getUserId()}`, body);
   }
 
+  editPlant(id: number, body: IPlantPost) : Observable<IPlantPost> {
+    return this.http.put<IPlantPost>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`, body);
+  }
+
   getPlantById(id: number) : Observable<IPlant> {
     return this.http.get<IPlant>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`);
   }

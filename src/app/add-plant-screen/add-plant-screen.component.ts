@@ -30,7 +30,8 @@ export class AddPlantScreenComponent {
     this.activeRoutePath = this.router.url;
     this.isEdit = this.activeRoutePath.startsWith('/edit-plant');
     if (this.isEdit) {
-      this.plant = <IPlant>this.router.getCurrentNavigation()?.extras.state?.['sheet'];
+      this.plant = <IPlant>this.router.getCurrentNavigation()?.extras.state?.['plant'];
+      this.sheet = <IPlantSheet>this.router.getCurrentNavigation()?.extras.state?.['sheet'];
     } else {
       this.sheet = <IPlantSheet>this.router.getCurrentNavigation()?.extras.state?.['sheet'];
     }
@@ -39,7 +40,11 @@ export class AddPlantScreenComponent {
 
   initForm() : FormGroup {
     return this.fb.group({
-      name: [this.sheet.name, [Validators.required]],
+      name: [
+        this.isEdit
+          ? this.plant.name
+          :this.sheet.name,
+        [Validators.required]],
       place: [
         this.isEdit
           ? this.plant.place
@@ -49,15 +54,28 @@ export class AddPlantScreenComponent {
   }
 
   addPlant() {
-    this.plantsService.addPlant({
-       name: this.plantForm.get('name')?.value,
-       place: this.plantForm.get('place')?.value,
-       sheetId: this.sheet?.id,
-       userId: this.authService.getUserId(),
-    })
-      .subscribe(result => {
-        this.router.navigate(['/']);
-      });
+    if (this.isEdit) {
+      this.plantsService.editPlant(this.plant.id, {
+        name: this.plantForm.get('name')?.value,
+        place: this.plantForm.get('place')?.value,
+        sheetId: this.sheet?.id,
+        userId: this.authService.getUserId(),
+      })
+        .subscribe(result => {
+          this.router.navigate(['/']);
+        });
+    } else {
+      this.plantsService.addPlant({
+        name: this.plantForm.get('name')?.value,
+        place: this.plantForm.get('place')?.value,
+        sheetId: this.sheet?.id,
+        userId: this.authService.getUserId(),
+      })
+        .subscribe(result => {
+          this.router.navigate(['/']);
+        });
+    }
+
   }
 
   goBack() {

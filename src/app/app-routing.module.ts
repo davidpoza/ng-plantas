@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'edit-journal/:id', component: AddJournalScreenComponent, canActivate: [authGuard] },
   { path: 'search-plant', component: SearchScreenComponent, canActivate: [authGuard] },
   { path: 'add-plant', component: AddPlantScreenComponent, canActivate: [authGuard] },
-  { path: 'edit-plant/:id', component: AddPlantScreenComponent, canActivate: [authGuard] },
+  { path: 'edit-plant', component: AddPlantScreenComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginScreenComponent },
   { path: 'forbidden', component: ForbiddenComponent }
 ];
