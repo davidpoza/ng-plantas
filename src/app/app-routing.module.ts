@@ -10,6 +10,7 @@ import { AddPlantScreenComponent } from './add-plant-screen/add-plant-screen.com
 import { SearchScreenComponent } from './search-screen/search-screen.component';
 import { ProfileScreenComponent } from './profile-screen/profile-screen.component';
 import { EncyclopediaScreenComponent } from './encyclopedia-screen/encyclopedia-screen.component';
+import { loggedInGuard } from './guards/logged-in.guard';
 
 const routes: Routes = [
   { path: '', component: HomeScreenComponent, canActivate: [authGuard] },
@@ -21,7 +22,7 @@ const routes: Routes = [
   { path: 'edit-plant', component: AddPlantScreenComponent, canActivate: [authGuard] },
   { path: 'profile', component: ProfileScreenComponent, canActivate: [authGuard] },
   { path: 'encyclopidia', component: EncyclopediaScreenComponent, canActivate: [authGuard] },
-  { path: 'login', component: LoginScreenComponent },
+  { path: 'login', component: LoginScreenComponent, canActivate: [loggedInGuard] },
   { path: 'forbidden', component: ForbiddenComponent }
 ];
 
