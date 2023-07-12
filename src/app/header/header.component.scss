@@ -1,7 +1,7 @@
 @import "_variables";
 
 #header {
-  background-color: white;
+  background-color: rgb(216 228 216);
   z-index: 999;
   position: fixed;
   top: 0;
@@ -18,7 +18,6 @@
 }
 
 .skinny {
-  background-color: rgb(199, 226, 199) !important;
   height: 32px !important;
   position: relative !important;
 }
@@ -31,10 +30,11 @@
 }
 
 .headerWithBg {
-  background-image: url("/assets/header.jpg");
+
+  background-image: url("/assets/header.png");
   background-position: top 0px right 0px;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
 }
 
 h1 {
@@ -63,7 +63,6 @@ button {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  border: 1px solid #b1afaf;
   background-repeat: no-repeat;
   background-size: cover;
 }
