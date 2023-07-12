@@ -4,7 +4,15 @@
   [skinny]="true"
 ></app-header>
 
+<mat-card>
+  <mat-card-content>
+    <h3>Nombre</h3>
+    <p>{{ user.name}}</p>
+    <h3>Email</h3>
+    <p>{{ user.email}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button color="primary" (click)="logout()">Logout</button>
+  </mat-card-actions>
+</mat-card>
 
-<p class="buttons">
-  <button mat-raised-button color="primary" (click)="logout()">Logout</button>
-</p>

@@ -31,6 +31,10 @@ export class AuthService {
     return this.user.id;
   }
 
+  getUser() : IUser {
+    return this.user;
+  }
+
   login(email: string, password: string) {
     this.http.post(`${config.baseUrl}/login`, { email, password })
       .subscribe((result : any) => {
