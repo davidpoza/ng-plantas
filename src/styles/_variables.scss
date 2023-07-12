@@ -24,3 +24,7 @@ $my-theme: mat.define-light-theme((
 
 
 @include mat.all-component-themes($my-theme);
+
+
+$vertical-space-header: 165px;
+$vertical-space-nav-bar: 80px;

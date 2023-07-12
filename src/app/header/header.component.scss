@@ -1,6 +1,12 @@
 @import "_variables";
 
 #header {
+  background-color: white;
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   max-width: 100%;
   height: 125px;
   padding: 20px;
@@ -12,8 +18,9 @@
 }
 
 .skinny {
-  background-color: rgb(199, 226, 199);
+  background-color: rgb(199, 226, 199) !important;
   height: 32px !important;
+  position: relative !important;
 }
 
 .titleBar {
@@ -35,6 +42,7 @@ h1 {
   font-weight: bold;
   z-index: 999;
   position: relative;
+  width: 70%;
 }
 
 h3 {

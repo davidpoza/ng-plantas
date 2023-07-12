@@ -47,4 +47,13 @@ export class AuthService {
       });
 
   }
+
+  logout() {
+    this.token = '';
+    writeCookie('token', '');
+    localStorage.setItem('user', '');
+    this.isLoggedIn = false;
+    this.router.navigate(['/login']);
+
+  }
 }

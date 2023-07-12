@@ -33,6 +33,9 @@ import { JournalService } from './services/journal.service';
 import { JournalItemComponent } from './plant-detail-screen/journal-item/journal-item.component';
 import { AddPlantScreenComponent } from './add-plant-screen/add-plant-screen.component';
 import { SearchItemComponent } from './search-screen/search-item/search-item.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { EncyclopediaScreenComponent } from './encyclopedia-screen/encyclopedia-screen.component';
+import { ProfileScreenComponent } from './profile-screen/profile-screen.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,9 @@ import { SearchItemComponent } from './search-screen/search-item/search-item.com
     JournalItemComponent,
     AddPlantScreenComponent,
     SearchItemComponent,
+    NavBarComponent,
+    EncyclopediaScreenComponent,
+    ProfileScreenComponent,
   ],
   imports: [
     BrowserModule,
