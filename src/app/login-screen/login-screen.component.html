@@ -2,23 +2,23 @@
   <app-header [text]="appTitle" backgroundImageURL="/assets/header.jpg"></app-header>
   <div class="formContainer">
     <h2>Inicia sesión</h2>
-    <form [formGroup]="contactForm" (submit)="onSubmit()">
+    <form [formGroup]="loginForm" (submit)="onSubmit()">
       <p>
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
           <input type="email" matInput formControlName="email" required>
-          <!-- <mat-error *ngIf="contactForm.invalid">{{getErrorMessage()}}</mat-error> -->
+          <mat-error *ngIf="loginForm.get('email')?.invalid">{{getEmailErrorMessage()}}</mat-error>
         </mat-form-field>
       </p>
       <p>
         <mat-form-field appearance="outline">
           <mat-label>Contraseña</mat-label>
           <input type="password" matInput formControlName="password" required>
-          <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+          <mat-error *ngIf="loginForm.get('password')?.invalid">{{getPasswordErrorMessage()}}</mat-error>
         </mat-form-field>
       </p>
       <p class="buttonRow">
-        <button mat-raised-button color="primary" [disabled]="!contactForm.valid">Login</button>
+        <button mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>
       </p>
     </form>
   </div>

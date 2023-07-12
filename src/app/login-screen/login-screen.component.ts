@@ -8,11 +8,11 @@ import { config } from 'src/config';
   styleUrls: ['./login-screen.component.scss']
 })
 export class LoginScreenComponent {
-  contactForm! : FormGroup;
+  loginForm! : FormGroup;
   appTitle: string = config.appTitle;
 
   constructor (private readonly fb: FormBuilder, private authService: AuthService) {
-    this.contactForm = this.initForm();
+    this.loginForm = this.initForm();
   }
 
   initForm() : FormGroup {
@@ -23,14 +23,21 @@ export class LoginScreenComponent {
   }
 
   onSubmit() {
-    this.authService.login(this.contactForm.get('email')?.value, this.contactForm.get('password')?.value);
+    this.authService.login(this.loginForm.get('email')?.value, this.loginForm.get('password')?.value);
   }
 
-  // getErrorMessage() {
-  //   if (this.email.hasError('required')) {
-  //     return 'You must enter a value';
-  //   }
+  getEmailErrorMessage() : string {
+    if (this.loginForm.get('email')?.hasError('required')) {
+      return 'Debes introducir un email';
+    }
 
-  //   return this.email.hasError('email') ? 'Not a valid email' : '';
-  // }
+    return this.loginForm.get('email')?.hasError('email') ? 'El email no es válido' : '';
+  }
+
+  getPasswordErrorMessage() : string {
+    if (this.loginForm.get('password')?.hasError('required')) {
+      return 'Debes introducir una contraseña';
+    }
+    return '';
+  }
 }
