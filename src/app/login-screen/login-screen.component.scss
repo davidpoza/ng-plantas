@@ -1,8 +1,12 @@
+@import "_variables";
+
+
 .formContainer{
   margin: auto;
   width: 80%;
 
-  padding: 20px;
+  overflow-y: auto;
+  padding: calc($vertical-space-header + 20px) 20px $vertical-space-nav-bar 20px;
 }
 
 mat-form-field {
