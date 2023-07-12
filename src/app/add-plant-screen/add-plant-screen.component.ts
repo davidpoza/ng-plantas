@@ -39,8 +39,7 @@ export class AddPlantScreenComponent {
 
   initForm() : FormGroup {
     return this.fb.group({
-      sheetId: [this.sheet?.id, [Validators.required]],
-      name: ['', [Validators.required]],
+      name: [this.sheet.name, [Validators.required]],
       place: [
         this.isEdit
           ? this.plant.place
@@ -50,7 +49,15 @@ export class AddPlantScreenComponent {
   }
 
   addPlant() {
-
+    this.plantsService.addPlant({
+       name: this.plantForm.get('name')?.value,
+       place: this.plantForm.get('place')?.value,
+       sheetId: this.sheet?.id,
+       userId: this.authService.getUserId(),
+    })
+      .subscribe(result => {
+        this.router.navigate(['/']);
+      });
   }
 
   goBack() {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { config } from 'src/config';
-import { IPlant } from '../models/Iplant';
+import { IPlant, IPlantPost } from '../models/Iplant';
 import { Observable, forkJoin } from 'rxjs';
 import { map, concatMap } from 'rxjs/operators';
 import { PlantsSheetsService } from './plants-sheets.service';
@@ -50,6 +50,10 @@ export class PlantsService {
         );
       })
     )
+  }
+
+  addPlant(body: IPlantPost) : Observable<IPlantPost> {
+    return this.http.post<IPlantPost>(`${config.baseUrl}/plants?userId=${this.authService.getUserId()}`, body);
   }
 
   getPlantById(id: number) : Observable<IPlant> {

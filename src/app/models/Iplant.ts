@@ -12,4 +12,12 @@ interface IPlant {
   lastJournal: IJournalEntry | undefined
 }
 
-export { IPlant };
+
+interface IPlantPost {
+  name: string,
+  place: string,
+  userId: number,
+  sheetId: number,
+}
+
+export { IPlant, IPlantPost };
