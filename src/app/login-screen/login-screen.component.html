@@ -6,7 +6,7 @@
       <p>
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
-          <input type="email" matInput formControlName="email" required>
+          <input type="email" matInput formControlName="email" required autocomplete="email">
           <mat-error *ngIf="loginForm.get('email')?.invalid">{{getEmailErrorMessage()}}</mat-error>
         </mat-form-field>
       </p>

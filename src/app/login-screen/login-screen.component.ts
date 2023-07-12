@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../services/auth.service';
 import { config } from 'src/config';
 @Component({
@@ -11,7 +12,11 @@ export class LoginScreenComponent {
   loginForm! : FormGroup;
   appTitle: string = config.appTitle;
 
-  constructor (private readonly fb: FormBuilder, private authService: AuthService) {
+  constructor (
+    private readonly fb: FormBuilder,
+    private authService: AuthService,
+    private _snackBar: MatSnackBar
+  ) {
     this.loginForm = this.initForm();
   }
 
@@ -23,7 +28,11 @@ export class LoginScreenComponent {
   }
 
   onSubmit() {
-    this.authService.login(this.loginForm.get('email')?.value, this.loginForm.get('password')?.value);
+    this.authService.login(this.loginForm.get('email')?.value, this.loginForm.get('password')?.value)
+      .subscribe({
+        error: (e: string) => { this._snackBar.open(e, "OK", { duration: 3000 }); }
+      });
+
   }
 
   getEmailErrorMessage() : string {
@@ -40,4 +49,5 @@ export class LoginScreenComponent {
     }
     return '';
   }
+
 }

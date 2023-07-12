@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
+import { Injectable, } from '@angular/core';
 import { config } from 'src/config';
 import { IUser } from '../models/IUser';
 import { writeCookie, readCookie } from '../utils/helpers';
@@ -13,7 +15,10 @@ export class AuthService {
   private user!: IUser;
   private token: string;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {
     this.token = readCookie('token');
     this.isLoggedIn = !!this.token || false;
     this.user = JSON.parse(localStorage.getItem('user') || "{}");
@@ -36,20 +41,25 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    this.http.post(`${config.baseUrl}/login`, { email, password })
-      .subscribe((result : any) => {
-        this.user = {
-          id: result.user.id,
-          name: result.user.name,
-          email: result.user.email,
-        };
-        this.token = result.accessToken;
-        writeCookie('token', result.accessToken);
-        localStorage.setItem('user', JSON.stringify(this.user));
-        this.isLoggedIn = true;
-        this.router.navigate(['/']);
-      });
-
+    return this.http.post(`${config.baseUrl}/login`, { email, password })
+      .pipe(
+        catchError((e: any) => {
+          if ([400, 401].includes(e.status)) return throwError(() => 'Credenciales incorrectas');
+          return throwError(() => e.message);
+        }),
+        tap((result : any) => {
+          this.user = {
+            id: result.user.id,
+            name: result.user.name,
+            email: result.user.email,
+          };
+          this.token = result.accessToken;
+          writeCookie('token', result.accessToken);
+          localStorage.setItem('user', JSON.stringify(this.user));
+          this.isLoggedIn = true;
+          this.router.navigate(['/']);
+        })
+      )
   }
 
   logout() {
