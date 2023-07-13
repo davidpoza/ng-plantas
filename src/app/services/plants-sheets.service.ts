@@ -24,7 +24,7 @@ export class PlantsSheetsService {
   }
 
   getAll() : Observable<IPlantSheet[]> {
-    return this.http.get<IPlantSheet[]>(`${config.baseUrl}/sheets`)
+    return this.http.get<IPlantSheet[]>(`${config.baseUrl}/sheets?_sort=name&_order=asc`)
       .pipe(
         catchError(error => {
           return throwError(() => 'Ocurrió un error al obtener el listado de clases de plantas.');
