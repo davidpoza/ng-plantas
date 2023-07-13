@@ -11,11 +11,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class SearchScreenComponent implements OnInit {
   sheets!: IPlantSheet[];
+  originalSheets!: IPlantSheet[];
+  filterString: string;
+
   constructor(
     private plantSheetsService: PlantsSheetsService,
     private loaderService: LoaderService,
     private _snackBar: MatSnackBar
   ) {
+    this.filterString = '';
 
 
   }
@@ -27,6 +31,7 @@ export class SearchScreenComponent implements OnInit {
         next: result => {
           this.loaderService.setVisibility(false);
           this.sheets = result;
+          this.originalSheets = [...result];
         },
         error: (e: string) => {
           this.loaderService.setVisibility(false);
@@ -35,5 +40,21 @@ export class SearchScreenComponent implements OnInit {
       });
   }
 
+  clear() {
+    this.filterString = '';
+    this.sheets = [...this.originalSheets];
+  }
+
+  onChangeFilter(e: Event) {
+    this.sheets = this.originalSheets.filter(s => {
+      if (
+        s.name.toLowerCase().includes((e.target as HTMLInputElement)?.value.toLowerCase())
+          || s.otherNames.toLowerCase().includes((e.target as HTMLInputElement)?.value.toLowerCase())
+      ) {
+        return true;
+      }
+      return false;
+    });
+  }
 
 }
