@@ -1,6 +1,9 @@
 <div class="container">
-  <img [src]="plant.sheet?.photoURL" (click)="onClick(plant.id)" />
+  <div class="imageContainer">
+    <img [src]="plant.sheet?.photoURL" style="width: 100%; height: 100%;" (click)="onClick(plant.id)" />
+  </div>
   <div class="info" (click)="onClick(plant.id)">
+
     <h3>{{ plant.name | capitalizeFirst }}</h3>
     <p class="location">{{ (plant.place || 'No hay datos del último riego') | capitalizeFirst }}</p>
     <p class="lastJournal">{{ (plant.lastJournal?.text || 'No hay datos del último riego') | capitalizeFirst }}</p>
