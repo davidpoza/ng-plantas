@@ -36,6 +36,7 @@ import { SearchItemComponent } from './search-screen/search-item/search-item.com
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { EncyclopediaScreenComponent } from './encyclopedia-screen/encyclopedia-screen.component';
 import { ProfileScreenComponent } from './profile-screen/profile-screen.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { ProfileScreenComponent } from './profile-screen/profile-screen.componen
     NavBarComponent,
     EncyclopediaScreenComponent,
     ProfileScreenComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,

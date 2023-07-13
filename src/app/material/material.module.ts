@@ -9,6 +9,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import {MatCardModule} from '@angular/material/card';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -42,7 +43,8 @@ const MY_DATE_FORMATS = {
     MatTabsModule,
     MatMenuModule,
     MatCardModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' },
