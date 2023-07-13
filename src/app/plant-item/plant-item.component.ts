@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { PlantsService } from '../services/plants.service';
 import { IPlantSheet } from '../models/IPlantSheet';
 import { PlantsSheetsService } from '../services/plants-sheets.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoaderService } from '../services/loader.service';
 
 @Component({
   selector: 'app-plant-item',
@@ -19,14 +21,24 @@ export class PlantItemComponent implements OnInit {
     private router: Router,
     private plantService: PlantsService,
     private plantSheetService: PlantsSheetsService,
+    private _snackBar: MatSnackBar,
+    private loaderService: LoaderService
   ) {
 
   }
 
   ngOnInit() {
+    this.loaderService.setVisibility(true);
     this.plantSheetService.getPlantSheetById(this.plant.sheetId)
-      .subscribe(sheetResponse => {
-        this.sheet = { ...sheetResponse };
+      .subscribe({
+        next: sheetResponse => {
+          this.loaderService.setVisibility(false);
+          this.sheet = { ...sheetResponse };
+        },
+        error: (e: string) => {
+          this.loaderService.setVisibility(false);
+          this._snackBar.open(e, "OK", { duration: 3000 });
+        }
       });
   }
 
@@ -35,9 +47,17 @@ export class PlantItemComponent implements OnInit {
   }
 
   onDelete(plantId: number) {
+    this.loaderService.setVisibility(true);
     this.plantService.deletePlant(plantId)
-      .subscribe(() => {
-        this.refreshPlantList.emit();
+      .subscribe({
+        next: () => {
+          this.loaderService.setVisibility(false);
+          this.refreshPlantList.emit();
+        },
+        error: (e: string) => {
+          this.loaderService.setVisibility(false);
+          this._snackBar.open(e, "OK", { duration: 3000 });
+        }
       });
   }
 

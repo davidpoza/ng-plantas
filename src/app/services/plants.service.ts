@@ -3,8 +3,8 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { config } from 'src/config';
 import { IPlant, IPlantPost } from '../models/Iplant';
-import { Observable, forkJoin } from 'rxjs';
-import { map, concatMap } from 'rxjs/operators';
+import { Observable, forkJoin, throwError } from 'rxjs';
+import { map, concatMap, catchError } from 'rxjs/operators';
 import { PlantsSheetsService } from './plants-sheets.service';
 import { IPlantSheet } from '../models/IPlantSheet';
 
@@ -48,23 +48,46 @@ export class PlantsService {
             });
           })
         );
-      })
+      }),
+      catchError(error => {
+        return throwError(() => 'Ocurrió un error al obtener las plantas.');
+      }),
     )
   }
 
   addPlant(body: IPlantPost) : Observable<IPlantPost> {
-    return this.http.post<IPlantPost>(`${config.baseUrl}/plants?userId=${this.authService.getUserId()}`, body);
+    return this.http.post<IPlantPost>(`${config.baseUrl}/plants?userId=${this.authService.getUserId()}`, body)
+      .pipe(
+        catchError(error => {
+          return throwError(() => 'Ocurrió un error al añadir la planta.');
+        }),
+      );
   }
 
   editPlant(id: number, body: IPlantPost) : Observable<IPlantPost> {
-    return this.http.put<IPlantPost>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`, body);
+    return this.http.put<IPlantPost>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`, body)
+      .pipe(
+        catchError(error => {
+          return throwError(() => 'Ocurrió un error al obtener modificar la planta.');
+        }),
+      );
   }
 
   getPlantById(id: number) : Observable<IPlant> {
-    return this.http.get<IPlant>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`);
+    return this.http.get<IPlant>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`)
+      .pipe(
+        catchError(error => {
+          return throwError(() => 'Ocurrió un error al obtener la información de la planta.');
+        }),
+      );
   }
 
   deletePlant(id: number) : Observable<IPlant> {
-    return this.http.delete<IPlant>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`);
+    return this.http.delete<IPlant>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`)
+      .pipe(
+        catchError(error => {
+          return throwError(() => 'Ocurrió un error al borrar la planta.');
+        }),
+      );
   }
 }

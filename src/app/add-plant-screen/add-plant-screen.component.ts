@@ -7,6 +7,7 @@ import { IPlant } from '../models/Iplant';
 import {Location} from '@angular/common';
 import { IPlantSheet } from '../models/IPlantSheet';
 import { LoaderService } from '../services/loader.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-plant-screen',
@@ -27,7 +28,8 @@ export class AddPlantScreenComponent {
     private route: ActivatedRoute,
     private plantsService: PlantsService,
     private router: Router,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private _snackBar: MatSnackBar
   ) {
     this.activeRoutePath = this.router.url;
     this.isEdit = this.activeRoutePath.startsWith('/edit-plant');
@@ -64,9 +66,15 @@ export class AddPlantScreenComponent {
         sheetId: this.sheet?.id,
         userId: this.authService.getUserId(),
       })
-        .subscribe(result => {
-          this.loaderService.setVisibility(false);
-          this.router.navigate(['/']);
+        .subscribe({
+          next: result => {
+            this.loaderService.setVisibility(false);
+            this.router.navigate(['/']);
+          },
+          error: (e: string) => {
+            this.loaderService.setVisibility(false);
+            this._snackBar.open(e, "OK", { duration: 3000 });
+          }
         });
     } else {
       this.loaderService.setVisibility(true);
@@ -76,9 +84,15 @@ export class AddPlantScreenComponent {
         sheetId: this.sheet?.id,
         userId: this.authService.getUserId(),
       })
-        .subscribe(result => {
-          this.loaderService.setVisibility(false);
-          this.router.navigate(['/']);
+        .subscribe({
+          next: result => {
+            this.loaderService.setVisibility(false);
+            this.router.navigate(['/']);
+          },
+          error: (e: string) => {
+            this.loaderService.setVisibility(false);
+            this._snackBar.open(e, "OK", { duration: 3000 });
+          }
         });
     }
 

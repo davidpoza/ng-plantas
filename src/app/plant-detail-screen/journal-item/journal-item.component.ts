@@ -5,6 +5,8 @@ import { getJournalImageSrcFromType } from 'src/app/utils/helpers';
 import { JournalService } from 'src/app/services/journal.service';
 import { Router } from '@angular/router';
 import { IPlant } from 'src/app/models/Iplant';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoaderService } from 'src/app/services/loader.service';
 
 
 @Component({
@@ -21,7 +23,9 @@ export class JournalItemComponent implements OnInit {
 
   constructor(
     private journalService: JournalService,
-    private router: Router
+    private router: Router,
+    private loaderService: LoaderService,
+    private _snackBar: MatSnackBar
   ) {
 
   }
@@ -32,9 +36,17 @@ export class JournalItemComponent implements OnInit {
   }
 
   onDelete(entryId: number) {
+    this.loaderService.setVisibility(true);
     this.journalService.deleteJournalEntry(entryId)
-      .subscribe(result => {
-        this.refreshJournal.emit();
+      .subscribe({
+        next: result => {
+          this.loaderService.setVisibility(false);
+          this.refreshJournal.emit();
+        },
+        error: (e: string) => {
+          this.loaderService.setVisibility(false);
+          this._snackBar.open(e, "OK", { duration: 3000 });
+        }
       });
   }
 

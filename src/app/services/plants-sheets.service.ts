@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { config } from 'src/config';
 import { IPlantSheet } from '../models/IPlantSheet';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +15,21 @@ export class PlantsSheetsService {
   }
 
   getPlantSheetById(id: number) : Observable<IPlantSheet> {
-    return this.http.get<IPlantSheet>(`${config.baseUrl}/sheets/${id}?userId=${this.authService.getUserId()}`);
+    return this.http.get<IPlantSheet>(`${config.baseUrl}/sheets/${id}?userId=${this.authService.getUserId()}`)
+      .pipe(
+        catchError(error => {
+          return throwError(() => 'Ocurrió un error al obtener la información adicional del tipo de planta.');
+        }),
+      );
   }
 
   getAll() : Observable<IPlantSheet[]> {
-    return this.http.get<IPlantSheet[]>(`${config.baseUrl}/sheets`);
+    return this.http.get<IPlantSheet[]>(`${config.baseUrl}/sheets`)
+      .pipe(
+        catchError(error => {
+          return throwError(() => 'Ocurrió un error al obtener el listado de clases de plantas.');
+        }),
+      );
   }
 
 }

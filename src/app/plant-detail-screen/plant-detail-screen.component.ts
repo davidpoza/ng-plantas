@@ -8,6 +8,7 @@ import { JournalService } from 'src/app/services/journal.service';
 import { IPlantSheet } from '../models/IPlantSheet';
 import { IJournalEntry } from 'src/app/models/IJournalEntry';
 import { LoaderService } from '../services/loader.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-plant-detail-screen',
@@ -26,7 +27,8 @@ export class PlantDetailScreenComponent implements OnInit {
     private plantsService: PlantsService,
     private plantSheetService: PlantsSheetsService,
     private journalService: JournalService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private _snackBar: MatSnackBar
   ) {
 
   }
@@ -42,13 +44,25 @@ export class PlantDetailScreenComponent implements OnInit {
     if (id) {
       this.loaderService.setVisibility(true);
       this.plantsService.getPlantById(id)
-        .subscribe(plantResponse => {
-          this.plant = { ...plantResponse };
-          this.plantSheetService.getPlantSheetById(this.plant.sheetId)
-            .subscribe(sheetResponse => {
-              this.loaderService.setVisibility(false);
-              this.sheet = { ...sheetResponse };
-            });
+        .subscribe({
+          next: plantResponse => {
+            this.plant = { ...plantResponse };
+            this.plantSheetService.getPlantSheetById(this.plant.sheetId)
+              .subscribe({
+                next: sheetResponse => {
+                  this.loaderService.setVisibility(false);
+                  this.sheet = { ...sheetResponse };
+                },
+                error: (e: string) => {
+                  this.loaderService.setVisibility(false);
+                  this._snackBar.open(e, "OK", { duration: 3000 });
+                }
+              });
+          },
+          error: (e: string) => {
+            this.loaderService.setVisibility(false);
+            this._snackBar.open(e, "OK", { duration: 3000 });
+          }
         });
     }
 
@@ -58,9 +72,15 @@ export class PlantDetailScreenComponent implements OnInit {
     if (tabIndex === 1) {
       this.loaderService.setVisibility(true);
       this.journalService.getJournalEntries(this.plant.id)
-        .subscribe(journalResponse => {
-          this.loaderService.setVisibility(false);
-          this.journal = [...journalResponse];
+        .subscribe({
+          next: journalResponse => {
+            this.loaderService.setVisibility(false);
+            this.journal = [...journalResponse];
+          },
+          error: (e: string) => {
+            this.loaderService.setVisibility(false);
+            this._snackBar.open(e, "OK", { duration: 3000 });
+          }
         });
     }
   }
@@ -68,9 +88,15 @@ export class PlantDetailScreenComponent implements OnInit {
   refresh() {
     this.loaderService.setVisibility(true);
     this.journalService.getJournalEntries(this.plant.id)
-      .subscribe(journalResponse => {
-        this.loaderService.setVisibility(false);
-        this.journal = [...journalResponse];
+      .subscribe({
+        next: journalResponse => {
+          this.loaderService.setVisibility(false);
+          this.journal = [...journalResponse];
+        },
+        error: (e: string) => {
+          this.loaderService.setVisibility(false);
+          this._snackBar.open(e, "OK", { duration: 3000 });
+        }
       });
   }
 

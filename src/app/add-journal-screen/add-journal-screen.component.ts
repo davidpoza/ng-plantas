@@ -10,6 +10,7 @@ import { TranslateJournalTypePipe } from '../pipes/translate-journal-type.pipe';
 import { JournalService } from '../services/journal.service';
 import { AuthService } from '../services/auth.service';
 import { LoaderService } from '../services/loader.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-journal-screen',
@@ -33,6 +34,7 @@ export class AddJournalScreenComponent implements OnInit {
     private journalService: JournalService,
     private authService : AuthService,
     private loaderService: LoaderService,
+    private _snackBar: MatSnackBar
   ) {
     this.activeRoutePath = this.router.url;
     this.isEdit = this.activeRoutePath.startsWith('/edit-journal');
@@ -51,11 +53,9 @@ export class AddJournalScreenComponent implements OnInit {
 
   initForm() : FormGroup {
     if (!this.isEdit) {
-      this.route.params.subscribe(
-        (params: Params) => {
-          this.type = params['type'];
-        }
-      )
+      this.route.params.subscribe((params: Params) => {
+        this.type = params['type'];
+      });
     } else {
       this.type = this.journalEntry.type;
     }
@@ -90,9 +90,15 @@ export class AddJournalScreenComponent implements OnInit {
         photoURL: this.journalEntry.photoURL,
         userId: this.authService.getUserId(),
       })
-        .subscribe(result => {
-          this.loaderService.setVisibility(false);
-          this._location.back();
+        .subscribe({
+          next: result => {
+            this.loaderService.setVisibility(false);
+            this._location.back();
+          },
+          error: (e: string) => {
+            this.loaderService.setVisibility(false);
+            this._snackBar.open(e, "OK", { duration: 3000 });
+          }
         });
     } else {
       this.loaderService.setVisibility(true);
@@ -104,9 +110,15 @@ export class AddJournalScreenComponent implements OnInit {
         photoURL: '',
         userId: this.authService.getUserId(),
       })
-        .subscribe(result => {
-          this.loaderService.setVisibility(false);
-          this._location.back();
+        .subscribe({
+          next: result => {
+            this.loaderService.setVisibility(false);
+            this._location.back();
+          },
+          error: (e: string) => {
+            this.loaderService.setVisibility(false);
+            this._snackBar.open(e, "OK", { duration: 3000 });
+          }
         });
     }
 
