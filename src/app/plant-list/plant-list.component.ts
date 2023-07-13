@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PlantsService } from '../services/plants.service';
 import { IPlant } from '../models/Iplant';
 import { Router } from '@angular/router';
+import { LoaderService } from '../services/loader.service';
 
 @Component({
   selector: 'app-plant-list',
@@ -14,22 +15,25 @@ export class PlantListComponent implements OnInit {
   constructor(
     private plantsService : PlantsService,
     private router: Router,
+    private loaderService: LoaderService
   ) {
 
   }
 
   ngOnInit(): void {
+    this.loaderService.setVisibility(true);
     this.plantsService.getPlants()
       .subscribe((result) => {
-        console.log(result)
+        this.loaderService.setVisibility(false);
         this.plantList = result;
       });
   }
 
   refresh() {
+    this.loaderService.setVisibility(true);
     this.plantsService.getPlants()
       .subscribe((result) => {
-        console.log(result)
+        this.loaderService.setVisibility(false);
         this.plantList = result;
       });
   }

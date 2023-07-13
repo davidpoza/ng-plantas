@@ -7,6 +7,7 @@ import { PlantsSheetsService } from '../services/plants-sheets.service';
 import { JournalService } from 'src/app/services/journal.service';
 import { IPlantSheet } from '../models/IPlantSheet';
 import { IJournalEntry } from 'src/app/models/IJournalEntry';
+import { LoaderService } from '../services/loader.service';
 
 @Component({
   selector: 'app-plant-detail-screen',
@@ -24,7 +25,8 @@ export class PlantDetailScreenComponent implements OnInit {
     private router: Router,
     private plantsService: PlantsService,
     private plantSheetService: PlantsSheetsService,
-    private journalService: JournalService
+    private journalService: JournalService,
+    private loaderService: LoaderService
   ) {
 
   }
@@ -38,11 +40,13 @@ export class PlantDetailScreenComponent implements OnInit {
     )
 
     if (id) {
+      this.loaderService.setVisibility(true);
       this.plantsService.getPlantById(id)
         .subscribe(plantResponse => {
           this.plant = { ...plantResponse };
           this.plantSheetService.getPlantSheetById(this.plant.sheetId)
             .subscribe(sheetResponse => {
+              this.loaderService.setVisibility(false);
               this.sheet = { ...sheetResponse };
             });
         });
@@ -52,16 +56,20 @@ export class PlantDetailScreenComponent implements OnInit {
 
   onTabChange(tabIndex: number) {
     if (tabIndex === 1) {
+      this.loaderService.setVisibility(true);
       this.journalService.getJournalEntries(this.plant.id)
         .subscribe(journalResponse => {
+          this.loaderService.setVisibility(false);
           this.journal = [...journalResponse];
         });
     }
   }
 
   refresh() {
+    this.loaderService.setVisibility(true);
     this.journalService.getJournalEntries(this.plant.id)
       .subscribe(journalResponse => {
+        this.loaderService.setVisibility(false);
         this.journal = [...journalResponse];
       });
   }

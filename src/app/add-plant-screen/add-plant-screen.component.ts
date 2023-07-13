@@ -6,6 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { IPlant } from '../models/Iplant';
 import {Location} from '@angular/common';
 import { IPlantSheet } from '../models/IPlantSheet';
+import { LoaderService } from '../services/loader.service';
 
 @Component({
   selector: 'app-add-plant-screen',
@@ -26,6 +27,7 @@ export class AddPlantScreenComponent {
     private route: ActivatedRoute,
     private plantsService: PlantsService,
     private router: Router,
+    private loaderService: LoaderService
   ) {
     this.activeRoutePath = this.router.url;
     this.isEdit = this.activeRoutePath.startsWith('/edit-plant');
@@ -55,6 +57,7 @@ export class AddPlantScreenComponent {
 
   addPlant() {
     if (this.isEdit) {
+      this.loaderService.setVisibility(true);
       this.plantsService.editPlant(this.plant.id, {
         name: this.plantForm.get('name')?.value,
         place: this.plantForm.get('place')?.value,
@@ -62,9 +65,11 @@ export class AddPlantScreenComponent {
         userId: this.authService.getUserId(),
       })
         .subscribe(result => {
+          this.loaderService.setVisibility(false);
           this.router.navigate(['/']);
         });
     } else {
+      this.loaderService.setVisibility(true);
       this.plantsService.addPlant({
         name: this.plantForm.get('name')?.value,
         place: this.plantForm.get('place')?.value,
@@ -72,6 +77,7 @@ export class AddPlantScreenComponent {
         userId: this.authService.getUserId(),
       })
         .subscribe(result => {
+          this.loaderService.setVisibility(false);
           this.router.navigate(['/']);
         });
     }

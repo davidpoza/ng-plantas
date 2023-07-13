@@ -9,6 +9,7 @@ import { IJournalEntry, JournalEntryType } from '../models/IJournalEntry';
 import { TranslateJournalTypePipe } from '../pipes/translate-journal-type.pipe';
 import { JournalService } from '../services/journal.service';
 import { AuthService } from '../services/auth.service';
+import { LoaderService } from '../services/loader.service';
 
 @Component({
   selector: 'app-add-journal-screen',
@@ -31,6 +32,7 @@ export class AddJournalScreenComponent implements OnInit {
     private translateJournalType: TranslateJournalTypePipe,
     private journalService: JournalService,
     private authService : AuthService,
+    private loaderService: LoaderService,
   ) {
     this.activeRoutePath = this.router.url;
     this.isEdit = this.activeRoutePath.startsWith('/edit-journal');
@@ -79,6 +81,7 @@ export class AddJournalScreenComponent implements OnInit {
 
   addJournal() {
     if (this.isEdit) {
+      this.loaderService.setVisibility(true);
       this.journalService.editJournalEntry(this.journalEntry.id, {
         plantId: this.plant.id,
         text: this.journalForm.get('text')?.value,
@@ -88,9 +91,11 @@ export class AddJournalScreenComponent implements OnInit {
         userId: this.authService.getUserId(),
       })
         .subscribe(result => {
+          this.loaderService.setVisibility(false);
           this._location.back();
         });
     } else {
+      this.loaderService.setVisibility(true);
       this.journalService.addJournalEntry({
         plantId: this.plant.id,
         text: this.journalForm.get('text')?.value,
@@ -100,6 +105,7 @@ export class AddJournalScreenComponent implements OnInit {
         userId: this.authService.getUserId(),
       })
         .subscribe(result => {
+          this.loaderService.setVisibility(false);
           this._location.back();
         });
     }

@@ -6,6 +6,7 @@ import { config } from 'src/config';
 import { IUser } from '../models/IUser';
 import { writeCookie, readCookie } from '../utils/helpers';
 import { Router } from '@angular/router';
+import { LoaderService } from './loader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private loaderService: LoaderService
   ) {
     this.token = readCookie('token');
     this.isLoggedIn = !!this.token || false;
@@ -41,13 +43,16 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
+    this.loaderService.setVisibility(true);
     return this.http.post(`${config.baseUrl}/login`, { email, password })
       .pipe(
         catchError((e: any) => {
+          this.loaderService.setVisibility(false);
           if ([400, 401].includes(e.status)) return throwError(() => 'Credenciales incorrectas');
           return throwError(() => e.message);
         }),
         tap((result : any) => {
+          this.loaderService.setVisibility(false);
           this.user = {
             id: result.user.id,
             name: result.user.name,

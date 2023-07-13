@@ -7,7 +7,6 @@ import { Observable, forkJoin } from 'rxjs';
 import { map, concatMap } from 'rxjs/operators';
 import { PlantsSheetsService } from './plants-sheets.service';
 import { IPlantSheet } from '../models/IPlantSheet';
-import { LoaderService } from './loader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +17,12 @@ export class PlantsService {
     private http: HttpClient,
     private authService : AuthService,
     private sheetService: PlantsSheetsService,
-    private loaderService: LoaderService
   ) {
 
   }
 
 
   getPlants() : Observable<any> {
-    this.loaderService.setVisibility(true);
     const plants$ : Observable<IPlant[]> = this.http.get<IPlant[]>(`${config.baseUrl}/plants?userId=${this.authService.getUserId()}`);
     return plants$.pipe(
       concatMap((plants: IPlant[]) => {
@@ -46,8 +43,6 @@ export class PlantsService {
         );
         return forkJoin(journalRequests).pipe(
           map((journal: any[]) => {
-            this.loaderService.setVisibility(false);
-
             return plants.map((plant: IPlant, index: number) => {
               return { ...plant, lastJournal: journal[index]?.[0] };
             });
