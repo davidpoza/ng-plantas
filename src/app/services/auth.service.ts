@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Injectable, } from '@angular/core';
-import { config } from 'src/config';
+
 import { IUser } from '../models/IUser';
 import { writeCookie, readCookie } from '../utils/helpers';
 import { Router } from '@angular/router';
 import { LoaderService } from './loader.service';
+import { config } from '../../config';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     this.loaderService.setVisibility(true);
-    return this.http.post(`${config.baseUrl}/login`, { email, password })
+    return this.http.post(`${config.baseApiUrl}/auth/login`, { email, password })
       .pipe(
         catchError((e: any) => {
           this.loaderService.setVisibility(false);
@@ -52,16 +53,22 @@ export class AuthService {
           return throwError(() => e.message);
         }),
         tap((result : any) => {
-          this.loaderService.setVisibility(false);
-          this.user = {
-            id: result.user.id,
-            name: result.user.name,
-            email: result.user.email,
-          };
-          this.token = result.accessToken;
-          writeCookie('token', result.accessToken);
-          localStorage.setItem('user', JSON.stringify(this.user));
+
+          this.token = result.data.access_token;
+          writeCookie('token', result.data.access_token);
           this.isLoggedIn = true;
+
+          this.http.get(`${config.baseApiUrl}/users/me`)
+            .subscribe((userInfo : any) => {
+              this.loaderService.setVisibility(false);
+              this.user = {
+                id: userInfo.data.id,
+                name: userInfo.data.name,
+                email: userInfo.data.email,
+              };
+              localStorage.setItem('user', JSON.stringify(this.user));
+            });
+
           this.router.navigate(['/']);
         })
       )

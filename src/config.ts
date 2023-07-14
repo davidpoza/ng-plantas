@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: 'http://192.168.1.244:3000',
+  baseApiUrl: 'https://plantas-api.davidinformatico.com',
   appTitle: 'Mis plantas'
 };
 

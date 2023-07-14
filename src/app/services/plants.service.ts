@@ -7,6 +7,8 @@ import { Observable, forkJoin, throwError } from 'rxjs';
 import { map, concatMap, catchError } from 'rxjs/operators';
 import { PlantsSheetsService } from './plants-sheets.service';
 import { IPlantSheet } from '../models/IPlantSheet';
+import { IResponse, IResponseArray } from '../models/IReponse';
+import { IJournalEntry } from '../models/IJournalEntry';
 
 @Injectable({
   providedIn: 'root'
@@ -23,28 +25,33 @@ export class PlantsService {
 
 
   getPlants() : Observable<any> {
-    const plants$ : Observable<IPlant[]> = this.http.get<IPlant[]>(`${config.baseUrl}/plants?userId=${this.authService.getUserId()}`);
+    const plants$ : Observable<IResponseArray> = this.http.get<IResponseArray>(`${config.baseApiUrl}/items/plants`);
     return plants$.pipe(
-      concatMap((plants: IPlant[]) => {
+      // adding sheets
+      concatMap((plantsResponse: IResponseArray) => {
+        const plants: IPlant[] = plantsResponse.data
         const sheetRequests = plants.map((plant: any) =>
-          this.http.get<IPlantSheet[]>(`${config.baseUrl}/sheets/${plant.sheetId}?userId=${this.authService.getUserId()}`)
+          this.http.get<IResponse>(`${config.baseApiUrl}/items/sheets/${plant.sheetId}`)
         );
         return forkJoin(sheetRequests).pipe(
-          map((sheets: any[]) => {
+          // map((response, i) => response[i].data),
+          map((sheet: IResponse[]) => {
             return plants.map((plant: IPlant, index: number) => {
-              return { ...plant, sheet: sheets[index] };
+              return { ...plant, sheet: sheet[index].data };
             });
           })
         );
       }),
+      // aadding Journal
       concatMap((plants: IPlant[]) => {
         const journalRequests = plants.map((plant: any) =>
-          this.http.get<IPlantSheet[]>(`${config.baseUrl}/journalEntries?plantId=${plant.id}&userId=${this.authService.getUserId()}&sort=timestamp&order=desc&type=watering&_limit=1`)
+          this.http.get<IResponseArray[]>(`${config.baseApiUrl}/items/journalEntries?filter[plantId][_eq]=${plant.id}&sort[]=-timestamp&filter[type][_eq]=watering&limit=1`)
         );
         return forkJoin(journalRequests).pipe(
+          // map((response, i) => response[i].data),
           map((journal: any[]) => {
             return plants.map((plant: IPlant, index: number) => {
-              return { ...plant, lastJournal: journal[index]?.[0] };
+              return { ...plant, lastJournal: journal[index].data[0] };
             });
           })
         );
@@ -56,7 +63,7 @@ export class PlantsService {
   }
 
   addPlant(body: IPlantPost) : Observable<IPlantPost> {
-    return this.http.post<IPlantPost>(`${config.baseUrl}/plants?userId=${this.authService.getUserId()}`, body)
+    return this.http.post<IPlantPost>(`${config.baseApiUrl}/items/plants`, body)
       .pipe(
         catchError(error => {
           return throwError(() => 'Ocurrió un error al añadir la planta.');
@@ -65,7 +72,7 @@ export class PlantsService {
   }
 
   editPlant(id: number, body: IPlantPost) : Observable<IPlantPost> {
-    return this.http.put<IPlantPost>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`, body)
+    return this.http.patch<IPlantPost>(`${config.baseApiUrl}/items/plants/${id}`, body)
       .pipe(
         catchError(error => {
           return throwError(() => 'Ocurrió un error al obtener modificar la planta.');
@@ -74,8 +81,9 @@ export class PlantsService {
   }
 
   getPlantById(id: number) : Observable<IPlant> {
-    return this.http.get<IPlant>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`)
+    return this.http.get<IResponse>(`${config.baseApiUrl}/items/plants/${id}`)
       .pipe(
+        map(response => response.data),
         catchError(error => {
           return throwError(() => 'Ocurrió un error al obtener la información de la planta.');
         }),
@@ -83,7 +91,7 @@ export class PlantsService {
   }
 
   deletePlant(id: number) : Observable<IPlant> {
-    return this.http.delete<IPlant>(`${config.baseUrl}/plants/${id}?userId=${this.authService.getUserId()}`)
+    return this.http.delete<IPlant>(`${config.baseApiUrl}/items/plants/${id}`)
       .pipe(
         catchError(error => {
           return throwError(() => 'Ocurrió un error al borrar la planta.');
