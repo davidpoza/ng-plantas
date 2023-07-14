@@ -46,7 +46,7 @@ export class JournalService {
   }
 
   editJournalEntry(entryId: number, body: IJournalEntryPost) {
-    return this.http.put<IJournalEntry>(`${config.baseApiUrl}/items/journalEntries/${entryId}`, body)
+    return this.http.patch<IJournalEntry>(`${config.baseApiUrl}/items/journalEntries/${entryId}`, body)
       .pipe(
         catchError(error => {
           return throwError(() => 'Ocurrió un error al realizar la modificación de la entrada.');
