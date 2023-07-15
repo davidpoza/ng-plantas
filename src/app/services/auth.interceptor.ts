@@ -4,7 +4,8 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
+  HttpClient
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -14,11 +15,18 @@ import { Router } from '@angular/router';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private auth: AuthService, private router: Router ) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const authToken = this.auth.getToken();
+    // if (request.url.includes('auth/refresh')) {
+    //   return next.handle(request);
+    // }
     const authReq = request.clone({
       headers: request.headers.set('Authorization', `Bearer ${authToken}`)
     });
@@ -30,7 +38,14 @@ export class AuthInterceptor implements HttpInterceptor {
             if (err.status !== 401) {
               return;
             }
-            this.auth.logout();
+            if (this.auth.getRefreshToken()) {
+              this.auth.renewToken()
+                .subscribe(() => {
+
+                });
+            } else {
+              this.auth.logout();
+            }
           }
         }
       })
