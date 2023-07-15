@@ -18,9 +18,16 @@ interface IJournalEntryPost {
   type: JournalEntryType,
   text: string,
   timestamp: number,
-  photoURL: string | undefined,
   plantId: number,
-  userId: number,
 }
 
-export { IJournalEntry, JournalEntryType, IJournalEntryPost };
+interface IJournalEntryPatch {
+  type?: JournalEntryType,
+  text?: string,
+  timestamp?: number,
+  photo?: string,
+  plantId?: number,
+}
+
+
+export { IJournalEntry, JournalEntryType, IJournalEntryPost, IJournalEntryPatch };

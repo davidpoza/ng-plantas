@@ -30,6 +30,14 @@
       <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
     </mat-form-field>
   </p>
+
+  <div class="uploadControl" *ngIf="type === journalEntryType.photo && !isEdit">
+    <button type="button" mat-raised-button (click)="fileInput.click()">Selecciona foto</button>
+    <input hidden (change)="onFileSelected($event)" #fileInput type="file" formControlName="photo">
+    <span class="file-name">{{selectedFile?.name}}</span>
+    <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+  </div>
+
   <p class="buttons">
     <button mat-raised-button (click)="goBack()">Cancelar</button>
     <button *ngIf="!isEdit" mat-raised-button color="primary" [disabled]="!journalForm.valid">Añadir entrada</button>

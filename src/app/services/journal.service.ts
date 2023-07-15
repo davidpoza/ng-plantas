@@ -4,7 +4,7 @@ import { config } from 'src/config';
 import { map } from 'rxjs/operators';
 import { Observable, catchError, throwError } from 'rxjs';
 
-import { IJournalEntry, IJournalEntryPost } from '../models/IJournalEntry';
+import { IJournalEntry, IJournalEntryPatch, IJournalEntryPost } from '../models/IJournalEntry';
 import { AuthService } from './auth.service';
 import { IResponse, IResponseArray } from '../models/IReponse';
 @Injectable({
@@ -45,12 +45,15 @@ export class JournalService {
       );
   }
 
-  editJournalEntry(entryId: number, body: IJournalEntryPost) {
-    return this.http.patch<IJournalEntry>(`${config.baseApiUrl}/items/journalEntries/${entryId}`, body)
+  editJournalEntry(entryId: number, body: IJournalEntryPatch) {
+    return this.http.patch<IResponse>(`${config.baseApiUrl}/items/journalEntries/${entryId}`, body)
       .pipe(
+        map((response) => response.data),
         catchError(error => {
           return throwError(() => 'Ocurrió un error al realizar la modificación de la entrada.');
         }),
       );
   }
+
+
 }

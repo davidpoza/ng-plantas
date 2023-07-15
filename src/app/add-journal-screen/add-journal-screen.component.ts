@@ -11,6 +11,7 @@ import { JournalService } from '../services/journal.service';
 import { AuthService } from '../services/auth.service';
 import { LoaderService } from '../services/loader.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UploadfileService } from '../services/uploadfile.service';
 
 @Component({
   selector: 'app-add-journal-screen',
@@ -18,12 +19,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./add-journal-screen.component.scss']
 })
 export class AddJournalScreenComponent implements OnInit {
+  journalEntryType = JournalEntryType;
   plant!: IPlant;
   journalEntry!: IJournalEntry;
   type!: JournalEntryType;
   journalForm! : FormGroup;
   isEdit: boolean;
   activeRoutePath!: string;
+  selectedFile: any = null;
 
   constructor(
     private _location: Location,
@@ -34,7 +37,8 @@ export class AddJournalScreenComponent implements OnInit {
     private journalService: JournalService,
     private authService : AuthService,
     private loaderService: LoaderService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private uploadService: UploadfileService
   ) {
     this.activeRoutePath = this.router.url;
     this.isEdit = this.activeRoutePath.startsWith('/edit-journal');
@@ -67,6 +71,7 @@ export class AddJournalScreenComponent implements OnInit {
           ? this.journalEntry.text
           : `${this.translateJournalType.transform(this.type)} realizado a las ${moment().format('HH:mm')}`,
         [Validators.required]],
+      photo: ['', [Validators.required]]
     })
   }
 
@@ -87,8 +92,6 @@ export class AddJournalScreenComponent implements OnInit {
         text: this.journalForm.get('text')?.value,
         type: this.journalEntry.type,
         timestamp: moment(this.journalForm.get('date')?.value, 'DD/MM/YYYY').unix(),
-        photoURL: this.journalEntry.photoURL,
-        userId: this.authService.getUserId(),
       })
         .subscribe({
           next: result => {
@@ -102,17 +105,36 @@ export class AddJournalScreenComponent implements OnInit {
         });
     } else {
       this.loaderService.setVisibility(true);
+
       this.journalService.addJournalEntry({
         plantId: this.plant.id,
         text: this.journalForm.get('text')?.value,
         type: this.type,
         timestamp: moment(this.journalForm.get('date')?.value, 'DD/MM/YYYY').unix(),
-        photoURL: '',
-        userId: this.authService.getUserId(),
       })
         .subscribe({
           next: result => {
             this.loaderService.setVisibility(false);
+            if (this.type === JournalEntryType.photo) {
+              const form = new FormData();
+              form.append('file', this.journalForm.get('photo')?.value);
+              this.uploadService.upload(form)
+                .subscribe({
+                  next: imageResult => {
+                    this.journalService.editJournalEntry(result.id, { photo: imageResult.id })
+                      .subscribe({
+                        error: (e: string) => {
+                          this.loaderService.setVisibility(false);
+                          this._snackBar.open(e, "OK", { duration: 3000 });
+                        }
+                      })
+                  },
+                  error: (e: string) => {
+                    this.loaderService.setVisibility(false);
+                    this._snackBar.open(e, "OK", { duration: 3000 });
+                  }
+                });
+            }
             this._location.back();
           },
           error: (e: string) => {
@@ -120,6 +142,18 @@ export class AddJournalScreenComponent implements OnInit {
             this._snackBar.open(e, "OK", { duration: 3000 });
           }
         });
+
+    }
+
+  }
+
+  onFileSelected(event: any): void {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0] ?? null;
+      this.selectedFile = file;
+      this.journalForm.patchValue({
+        photo: file
+      });
     }
 
   }

@@ -29,3 +29,9 @@ form {
     margin: 10px;
   }
 }
+
+.uploadControl {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2em;
+}
