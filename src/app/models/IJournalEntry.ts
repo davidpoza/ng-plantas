@@ -10,7 +10,7 @@ interface IJournalEntry {
   type: JournalEntryType,
   text: string,
   timestamp: number,
-  photoURL: string,
+  photo: string,
   plantId: number,
 }
 

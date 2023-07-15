@@ -1,5 +1,5 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { IJournalEntry } from 'src/app/models/IJournalEntry';
+import { IJournalEntry, JournalEntryType } from 'src/app/models/IJournalEntry';
 import moment from 'moment';
 import { getJournalImageSrcFromType } from 'src/app/utils/helpers';
 import { JournalService } from 'src/app/services/journal.service';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { IPlant } from 'src/app/models/Iplant';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoaderService } from 'src/app/services/loader.service';
+import { config } from 'src/config';
 
 
 @Component({
@@ -32,7 +33,11 @@ export class JournalItemComponent implements OnInit {
 
   ngOnInit() {
     this.formattedDate = moment.unix(this.entry.timestamp).format('DD [de] MMM YYYY');
-    this.imageSrc = `/assets/${getJournalImageSrcFromType(this.entry.type)}`;
+    if (this.entry.type === JournalEntryType.photo) {
+      this.imageSrc = `${config.baseApiUrl}/assets/${this.entry.photo}`;
+    } else {
+      this.imageSrc = `/assets/${getJournalImageSrcFromType(this.entry.type)}`;
+    }
   }
 
   onDelete(entryId: number) {

@@ -10,10 +10,14 @@ h3 {
   font-weight: bold;
 }
 
-img {
+.imageContainer {
   height: 60px;
+  width: 60px;
+
+ img {
   border-radius: 10px;
   border: 1px solid #00000033;
+ }
 }
 
 .info {
