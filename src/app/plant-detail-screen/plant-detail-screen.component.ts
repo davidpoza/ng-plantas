@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import moment from 'moment';
 
 import { IPlant } from '../models/Iplant';
 import { PlantsService } from '../services/plants.service';
@@ -9,6 +10,7 @@ import { IPlantSheet } from '../models/IPlantSheet';
 import { IJournalEntry } from 'src/app/models/IJournalEntry';
 import { LoaderService } from '../services/loader.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { config } from 'src/config';
 
 @Component({
   selector: 'app-plant-detail-screen',
@@ -19,6 +21,7 @@ export class PlantDetailScreenComponent implements OnInit {
   plant!: IPlant;
   sheet!: IPlantSheet;
   journal!: IJournalEntry[];
+  journalPhotos!: any[];
   @Output() refreshJournal: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
@@ -76,6 +79,22 @@ export class PlantDetailScreenComponent implements OnInit {
           next: journalResponse => {
             this.loaderService.setVisibility(false);
             this.journal = [...journalResponse];
+          },
+          error: (e: string) => {
+            this.loaderService.setVisibility(false);
+            this._snackBar.open(e, "OK", { duration: 3000 });
+          }
+        });
+    } else if (tabIndex === 2) {
+      this.loaderService.setVisibility(true);
+      this.journalService.getPhotoEntries(this.plant.id)
+        .subscribe({
+          next: journalResponse => {
+            this.loaderService.setVisibility(false);
+            this.journalPhotos = [...journalResponse].map(j => ({
+              url : `${config.baseApiUrl}/assets/${j.photo}`,
+              title: moment.unix(j.timestamp).format('DD/MM/YYYY')
+            }));
           },
           error: (e: string) => {
             this.loaderService.setVisibility(false);

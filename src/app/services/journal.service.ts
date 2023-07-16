@@ -4,7 +4,7 @@ import { config } from 'src/config';
 import { map } from 'rxjs/operators';
 import { Observable, catchError, throwError } from 'rxjs';
 
-import { IJournalEntry, IJournalEntryPatch, IJournalEntryPost } from '../models/IJournalEntry';
+import { IJournalEntry, IJournalEntryPatch, IJournalEntryPost, JournalEntryType } from '../models/IJournalEntry';
 import { AuthService } from './auth.service';
 import { IResponse, IResponseArray } from '../models/IReponse';
 @Injectable({
@@ -51,6 +51,16 @@ export class JournalService {
         map((response) => response.data),
         catchError(error => {
           return throwError(() => 'Ocurrió un error al realizar la modificación de la entrada.');
+        }),
+      );
+  }
+
+  getPhotoEntries(plantId: number) : Observable<IJournalEntry[]> {
+    return this.http.get<IResponseArray>(`${config.baseApiUrl}/items/journalEntries?filter[plantId][_eq]=${plantId}&filter[type][_eq]=${JournalEntryType.photo}&sort[]=-timestamp`)
+      .pipe(
+        map((response) => response.data),
+        catchError(error => {
+          return throwError(() => 'Ocurrió un error al obtener el diario de la planta.');
         }),
       );
   }

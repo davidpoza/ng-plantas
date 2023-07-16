@@ -37,6 +37,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { EncyclopediaScreenComponent } from './encyclopedia-screen/encyclopedia-screen.component';
 import { ProfileScreenComponent } from './profile-screen/profile-screen.component';
 import { LoaderComponent } from './loader/loader.component';
+import { NgxMasonryModule } from 'ngx-masonry';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,7 @@ import { LoaderComponent } from './loader/loader.component';
     NavBarComponent,
     EncyclopediaScreenComponent,
     ProfileScreenComponent,
-    LoaderComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +75,9 @@ import { LoaderComponent } from './loader/loader.component';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxMasonryModule
+
   ],
   providers: [
     TranslateJournalTypePipe,
