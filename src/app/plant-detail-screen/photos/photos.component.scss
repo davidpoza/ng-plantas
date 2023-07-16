@@ -1,12 +1,16 @@
 .masonry-item {
   width: 200px;
-
-  .description {
-    width: 100%;
-    background-color: black;
-    color: white;
-    text-align: center;
+  a {
+    display: flex;
+    flex-direction: column;
+    .description {
+      width: 100%;
+      background-color: black;
+      color: white;
+      text-align: center;
+    }
   }
+
 }
 
 

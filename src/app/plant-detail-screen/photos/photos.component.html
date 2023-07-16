@@ -3,7 +3,7 @@
   <ngx-masonry style="width: 90vw;" [options]="{ gutter: 0 }">
     <div ngxMasonryItem class="masonry-item" *ngFor="let item of journalPhotos; index as idx" style="width: 30%;">
       <a [href]="item.url">
-        <img [src]="item.url" width="100%">
+        <img [src]="item.thumb" width="100%">
         <div class="description">{{item.title}}</div>
       </a>
    </div>

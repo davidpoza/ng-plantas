@@ -93,6 +93,7 @@ export class PlantDetailScreenComponent implements OnInit {
             this.loaderService.setVisibility(false);
             this.journalPhotos = [...journalResponse].map(j => ({
               url : `${config.baseApiUrl}/assets/${j.photo}`,
+              thumb : `${config.baseApiUrl}/assets/${j.photo}?key=thumb`,
               title: moment.unix(j.timestamp).format('DD/MM/YYYY')
             }));
           },
