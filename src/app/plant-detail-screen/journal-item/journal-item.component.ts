@@ -34,7 +34,7 @@ export class JournalItemComponent implements OnInit {
   ngOnInit() {
     this.formattedDate = moment.unix(this.entry.timestamp).format('DD [de] MMM YYYY');
     if (this.entry.type === JournalEntryType.photo) {
-      this.imageSrc = `${config.baseApiUrl}/assets/${this.entry.photo}`;
+      this.imageSrc = `${config.baseApiUrl}/assets/${this.entry.photo}?key=thumb`;
     } else {
       this.imageSrc = `/assets/${getJournalImageSrcFromType(this.entry.type)}`;
     }
