@@ -7,7 +7,7 @@ import {
   HttpErrorResponse,
   HttpClient
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const authToken = this.auth.getToken();
-    if (request.url.includes('auth/refresh')) {
+    if (request.url.includes('auth/refresh')) { // we don't want to include the authorization header en refresh
       return next.handle(request);
     }
     const authReq = request.clone({
@@ -36,17 +36,25 @@ export class AuthInterceptor implements HttpInterceptor {
         error: (err: any) => {
           if (err instanceof HttpErrorResponse) {
             if (err.status !== 401) {
-              return;
+              return next.handle(request);
             }
             if (this.auth.getRefreshToken()) {
-              this.auth.renewToken()
-                .subscribe(() => {
-
+              return this.auth.renewToken()
+                .subscribe({
+                  next: () => {
+                    return next.handle(authReq);
+                  },
+                  error: (e) => {
+                    this.auth.logout();
+                    return throwError(() => e);
+                  }
                 });
             } else {
               this.auth.logout();
+              return throwError(() => err);
             }
           }
+          return next.handle(request);
         }
       })
     );
