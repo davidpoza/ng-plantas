@@ -5,10 +5,19 @@
 }
 
 .embeddedContainer {
-  margin: 20px;
+  margin: 10px 20px;
   padding: calc($vertical-space-header + 20px) 20px $vertical-space-nav-bar 20px;
+}
+
+h2 {
+  font-size: 2em;
 }
 
 h3 {
   font-weight: bold;
+  margin-bottom: 4px;
+}
+
+p {
+  margin-bottom: 16px;
 }
