@@ -71,7 +71,7 @@ export class AddJournalScreenComponent implements OnInit {
           ? this.journalEntry.text
           : `${this.translateJournalType.transform(this.type)} realizado a las ${moment().format('HH:mm')}`,
         [Validators.required]],
-      photo: ['', [Validators.required]]
+      photo: ['', []]
     })
   }
 
