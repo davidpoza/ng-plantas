@@ -38,6 +38,7 @@ import { EncyclopediaScreenComponent } from './encyclopedia-screen/encyclopedia-
 import { ProfileScreenComponent } from './profile-screen/profile-screen.component';
 import { LoaderComponent } from './loader/loader.component';
 import { NgxMasonryModule } from 'ngx-masonry';
+import { SheetDetailScreenComponent } from './sheet-detail-screen/sheet-detail-screen.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { NgxMasonryModule } from 'ngx-masonry';
     NavBarComponent,
     EncyclopediaScreenComponent,
     ProfileScreenComponent,
-    LoaderComponent
+    LoaderComponent,
+    SheetDetailScreenComponent
   ],
   imports: [
     BrowserModule,

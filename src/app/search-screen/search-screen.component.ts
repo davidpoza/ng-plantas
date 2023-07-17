@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PlantsSheetsService } from '../services/plants-sheets.service';
 import { IPlantSheet } from '../models/IPlantSheet';
 import { LoaderService } from '../services/loader.service';
@@ -13,6 +13,8 @@ export class SearchScreenComponent implements OnInit {
   sheets!: IPlantSheet[];
   originalSheets!: IPlantSheet[];
   filterString: string;
+  @Input() embedded: boolean = false;
+
 
   constructor(
     private plantSheetsService: PlantsSheetsService,
@@ -20,7 +22,6 @@ export class SearchScreenComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
     this.filterString = '';
-
 
   }
 

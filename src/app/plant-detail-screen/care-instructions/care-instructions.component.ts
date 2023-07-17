@@ -8,8 +8,8 @@ import { IPlant } from 'src/app/models/Iplant';
   styleUrls: ['./care-instructions.component.scss']
 })
 export class CareInstructionsComponent implements OnInit {
-  @Input() plant!: IPlant;
   @Input() sheet!: IPlantSheet;
+  @Input() embedded!: boolean;
 
   ngOnInit() {
 

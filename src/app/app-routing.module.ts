@@ -11,10 +11,12 @@ import { SearchScreenComponent } from './search-screen/search-screen.component';
 import { ProfileScreenComponent } from './profile-screen/profile-screen.component';
 import { EncyclopediaScreenComponent } from './encyclopedia-screen/encyclopedia-screen.component';
 import { loggedInGuard } from './guards/logged-in.guard';
+import { SheetDetailScreenComponent } from './sheet-detail-screen/sheet-detail-screen.component';
 
 const routes: Routes = [
   { path: '', component: HomeScreenComponent, canActivate: [authGuard] },
   { path: 'plant/:id', component: PlantDetailScreenComponent, canActivate: [authGuard] },
+  { path: 'sheet/:id', component: SheetDetailScreenComponent, canActivate: [authGuard] },
   { path: 'add-journal/:id/:type', component: AddJournalScreenComponent, canActivate: [authGuard] },
   { path: 'edit-journal/:id', component: AddJournalScreenComponent, canActivate: [authGuard] },
   { path: 'search-plant', component: SearchScreenComponent, canActivate: [authGuard] },

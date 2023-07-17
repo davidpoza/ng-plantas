@@ -1,5 +1,12 @@
+@import "_variables";
+
 .container {
   margin: 20px;
+}
+
+.embeddedContainer {
+  margin: 20px;
+  padding: calc($vertical-space-header + 20px) 20px $vertical-space-nav-bar 20px;
 }
 
 h3 {

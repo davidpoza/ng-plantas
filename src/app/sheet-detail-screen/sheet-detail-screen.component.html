@@ -1,0 +1,8 @@
+<app-header
+  [showBackBtn]="true"
+  [text]="sheet.name"
+  [subtext]="sheet.otherNames"
+  [imageAsIcon]="sheet.photoURL"
+></app-header>
+<app-care-instructions [embedded]="true" [sheet]="sheet"></app-care-instructions>
+<app-nav-bar></app-nav-bar>

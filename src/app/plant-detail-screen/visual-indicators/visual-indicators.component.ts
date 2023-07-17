@@ -8,7 +8,6 @@ import { IPlant } from 'src/app/models/Iplant';
   styleUrls: ['./visual-indicators.component.scss']
 })
 export class VisualIndicatorsComponent {
-  @Input() plant!: IPlant;
   @Input() sheet!: IPlantSheet;
   indicatorArray: number[] = [1,2,3];
 }

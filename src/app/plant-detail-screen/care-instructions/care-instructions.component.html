@@ -1,6 +1,6 @@
-<div class="container">
+<div [ngClass]="embedded ? 'embeddedContainer' : 'container'">
   <h2>Cuidados</h2>
-  <app-visual-indicators [sheet]="sheet" [plant]="plant"></app-visual-indicators>
+  <app-visual-indicators [sheet]="sheet"></app-visual-indicators>
 
   <h3>Iluminación</h3>
   <p>{{ sheet.lightText }}</p>

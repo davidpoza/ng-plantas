@@ -9,6 +9,7 @@ import { IPlantSheet } from 'src/app/models/IPlantSheet';
 })
 export class SearchItemComponent {
   @Input() sheet!: IPlantSheet;
+  @Input() embedded: boolean = false;
 
   constructor(
     private router: Router
@@ -17,6 +18,10 @@ export class SearchItemComponent {
   }
 
   onClick(sheetId: number){
-    this.router.navigate(['add-plant'], { state: { sheet: this.sheet } });
+    if (this.embedded) {
+      this.router.navigate([`sheet/${sheetId}`]);
+    } else {
+      this.router.navigate(['add-plant'], { state: { sheet: this.sheet } });
+    }
   }
 }

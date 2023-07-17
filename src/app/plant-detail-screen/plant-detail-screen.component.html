@@ -14,7 +14,7 @@
   <mat-tab-group (selectedIndexChange)="onTabChange($event)">
     <mat-tab label="Cuidados">
       <app-action-buttons [plant]="plant"></app-action-buttons>
-      <app-care-instructions [plant]="plant" [sheet]="sheet"></app-care-instructions>
+      <app-care-instructions [sheet]="sheet"></app-care-instructions>
     </mat-tab>
     <mat-tab label="Diario">
       <app-journal [journal]="journal" [plant]="plant" (refreshJournal)="refresh()"></app-journal>
