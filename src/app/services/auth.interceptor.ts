@@ -22,15 +22,18 @@ export class AuthInterceptor implements HttpInterceptor {
     this.tokenSubject = auth.getToken();
   }
 
+  getRequestWithAuthHeader(req: HttpRequest<unknown>, token?: string | null) {
+    return req.clone({
+      headers: req.headers.set('Authorization', `Bearer ${token || this.tokenSubject.value}`)
+    })
+  }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (request.url.includes('auth/refresh') || request.url.includes('login')) { // we don't want to include the authorization header en refresh
       return next.handle(request);
     }
 
-    const authReq = request.clone({
-      headers: request.headers.set('Authorization', `Bearer ${this.tokenSubject.value}`)
-    });
+    const authReq = this.getRequestWithAuthHeader(request);
     return next.handle(authReq).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status !== 401) return next.handle(authReq);
@@ -43,9 +46,7 @@ export class AuthInterceptor implements HttpInterceptor {
             .pipe(
               tap(() => {
                 this.isRefreshingToken = false;
-                return next.handle(request.clone({
-                  headers: request.headers.set('Authorization', `Bearer ${this.tokenSubject.value}`)
-                }));
+                return next.handle(this.getRequestWithAuthHeader(request));
               }),
               catchError((e) => {
                 this.isRefreshingToken = false;
@@ -59,10 +60,7 @@ export class AuthInterceptor implements HttpInterceptor {
               filter(token => token != null),
               take(1),
               switchMap(token => {
-                  const reqWithNewToken = request.clone({
-                    headers: request.headers.set('Authorization', `Bearer ${token}`)
-                  });
-                  return next.handle(reqWithNewToken);
+                return next.handle(this.getRequestWithAuthHeader(request, token));
               })
             );
         }
