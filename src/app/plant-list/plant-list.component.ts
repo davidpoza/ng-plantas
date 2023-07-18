@@ -34,7 +34,8 @@ export class PlantListComponent implements OnInit {
             if (!this.places.includes(p.place.toLowerCase())) {
               this.places.push(p.place.toLowerCase());
             }
-          })
+          });
+          this.places = this.places.sort();
         },
         error: (e: string) => {
           this.loaderService.setVisibility(false);
@@ -59,7 +60,7 @@ export class PlantListComponent implements OnInit {
   }
 
   getPlantListFilteredByPlace(place: string) : IPlant[] {
-    return this.plantList.filter(p => p.place === place);
+    return this.plantList.filter(p => p.place === place).sort((p1, p2) =>  p1.name.localeCompare(p2.name));
   }
 
   goAddPlant() {
