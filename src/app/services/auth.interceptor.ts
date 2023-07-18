@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (request.url.includes('auth/refresh')) { // we don't want to include the authorization header en refresh
+    if (request.url.includes('auth/refresh') || request.url.includes('login')) { // we don't want to include the authorization header en refresh
       return next.handle(request);
     }
 
