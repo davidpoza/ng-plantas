@@ -2,9 +2,16 @@
   <div class="buttons">
     <button (click)="goAddPlant()">Añadir planta</button>
   </div>
-  <div class="listContainer">
-    <app-plant-item *ngFor="let plant of plantList" [plant]="plant" (refreshPlantList)="refresh()"></app-plant-item>
-  </div>
+  <mat-accordion class="listContainer" multi>
+    <mat-expansion-panel *ngFor="let place of places" expanded="true" class="panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ place | capitalizeFirst }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-plant-item *ngFor="let plant of getPlantListFilteredByPlace(place)" [plant]="plant" (refreshPlantList)="refresh()"></app-plant-item>
+    </mat-expansion-panel>
 
+  </mat-accordion>
 </div>
 

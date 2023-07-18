@@ -62,7 +62,7 @@ export class AddPlantScreenComponent {
       this.loaderService.setVisibility(true);
       this.plantsService.editPlant(this.plant.id, {
         name: this.plantForm.get('name')?.value,
-        place: this.plantForm.get('place')?.value,
+        place: this.plantForm.get('place')?.value?.toLowerCase(),
         sheetId: this.sheet?.id,
         userId: this.authService.getUserId(),
       })
@@ -80,7 +80,7 @@ export class AddPlantScreenComponent {
       this.loaderService.setVisibility(true);
       this.plantsService.addPlant({
         name: this.plantForm.get('name')?.value,
-        place: this.plantForm.get('place')?.value,
+        place: this.plantForm.get('place')?.value?.toLowerCase(),
         sheetId: this.sheet?.id,
         userId: this.authService.getUserId(),
       })

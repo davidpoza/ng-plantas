@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class PlantListComponent implements OnInit {
   protected plantList!: IPlant[];
+  places: string[];
 
   constructor(
     private plantsService : PlantsService,
@@ -19,7 +20,7 @@ export class PlantListComponent implements OnInit {
     private loaderService: LoaderService,
     private _snackBar: MatSnackBar
   ) {
-
+    this.places = [];
   }
 
   ngOnInit(): void {
@@ -29,6 +30,11 @@ export class PlantListComponent implements OnInit {
         next: (result) => {
           this.loaderService.setVisibility(false);
           this.plantList = result;
+          this.plantList.forEach(p => {
+            if (!this.places.includes(p.place.toLowerCase())) {
+              this.places.push(p.place.toLowerCase());
+            }
+          })
         },
         error: (e: string) => {
           this.loaderService.setVisibility(false);
@@ -50,6 +56,10 @@ export class PlantListComponent implements OnInit {
           this._snackBar.open(e, "OK", { duration: 3000 });
         }
       });
+  }
+
+  getPlantListFilteredByPlace(place: string) : IPlant[] {
+    return this.plantList.filter(p => p.place === place);
   }
 
   goAddPlant() {

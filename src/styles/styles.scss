@@ -13,3 +13,8 @@ body {
   font-size: $baseFontSize;
 
 }
+
+
+.panel .mat-expansion-panel-body{
+  padding: 0 !important;
+}

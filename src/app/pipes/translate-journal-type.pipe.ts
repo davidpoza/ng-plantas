@@ -11,11 +11,11 @@ export class TranslateJournalTypePipe implements PipeTransform {
       case JournalEntryType.watering:
         return 'riego';
       case JournalEntryType.mist:
-        return 'pulverizar agua';
+        return 'pulverizado agua';
       case JournalEntryType.fertilize:
-        return 'agregar fertilizante';
+        return 'fertilizado';
       case JournalEntryType.photo:
-        return 'tomar una foto';
+        return 'foto';
       default:
         return type;
     }
