@@ -5,56 +5,66 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpErrorResponse,
-  HttpClient
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { tap, filter, take, switchMap, catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  isRefreshingToken: boolean;
+  tokenSubject: BehaviorSubject<string|null>;
 
   constructor(
     private auth: AuthService,
-    private router: Router,
-    private http: HttpClient
-  ) {}
+  ) {
+    this.isRefreshingToken = false;
+    this.tokenSubject = auth.getToken();
+  }
 
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const authToken = this.auth.getToken();
     if (request.url.includes('auth/refresh')) { // we don't want to include the authorization header en refresh
       return next.handle(request);
     }
+
     const authReq = request.clone({
-      headers: request.headers.set('Authorization', `Bearer ${authToken}`)
+      headers: request.headers.set('Authorization', `Bearer ${this.tokenSubject.value}`)
     });
-    // return next.handle(authReq);
     return next.handle(authReq).pipe(
-      tap({
-        error: (err: any) => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status !== 401) {
-              return next.handle(request);
-            }
-            if (this.auth.getRefreshToken()) {
-              return this.auth.renewToken()
-                .subscribe({
-                  next: () => {
-                    return next.handle(authReq);
-                  },
-                  error: (e) => {
-                    this.auth.logout();
-                    return throwError(() => e);
-                  }
-                });
-            } else {
-              this.auth.logout();
-              return throwError(() => err);
-            }
-          }
-          return next.handle(request);
+      catchError((err: HttpErrorResponse) => {
+        if (err.status !== 401) return next.handle(authReq);
+
+        // is unauthorized
+        if (!this.isRefreshingToken) {
+          this.isRefreshingToken = true;
+          this.tokenSubject.next(null); // Reset here so that the following requests wait until the token comes back from the refreshToken call.
+          return this.auth.renewToken()
+            .pipe(
+              tap(() => {
+                this.isRefreshingToken = false;
+                return next.handle(request.clone({
+                  headers: request.headers.set('Authorization', `Bearer ${this.tokenSubject.value}`)
+                }));
+              }),
+              catchError((e) => {
+                this.isRefreshingToken = false;
+                this.auth.logout();
+                return throwError(() => e);
+              })
+            );
+        } else { // rest of 401 requests come here when token is being refreshed
+          return this.tokenSubject
+            .pipe(
+              filter(token => token != null),
+              take(1),
+              switchMap(token => {
+                  const reqWithNewToken = request.clone({
+                    headers: request.headers.set('Authorization', `Bearer ${token}`)
+                  });
+                  return next.handle(reqWithNewToken);
+              })
+            );
         }
       })
     );

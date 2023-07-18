@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { throwError, BehaviorSubject } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Injectable, } from '@angular/core';
 
@@ -15,7 +15,7 @@ import { config } from '../../config';
 export class AuthService {
   private isLoggedIn: boolean;
   private user!: IUser;
-  private token: string;
+  private token: BehaviorSubject<string|null>;
   private refreshToken: string;
 
   constructor(
@@ -23,7 +23,7 @@ export class AuthService {
     private router: Router,
     private loaderService: LoaderService
   ) {
-    this.token = readCookie('token');
+    this.token = new BehaviorSubject(readCookie('token') || null);
     this.refreshToken = readCookie('refreshToken');
     this.isLoggedIn = !!this.token || false;
     this.user = JSON.parse(localStorage.getItem('user') || "{}");
@@ -33,7 +33,7 @@ export class AuthService {
     return this.isLoggedIn;
   }
 
-  getToken() : string {
+  getToken() : BehaviorSubject<string|null> {
     return this.token;
   }
 
@@ -59,8 +59,7 @@ export class AuthService {
           return throwError(() => e.message);
         }),
         tap((result : any) => {
-
-          this.token = result.data.access_token;
+          this.token.next(result.data.access_token);
           this.refreshToken = result.data.refresh_token;
           writeCookie('token', result.data.access_token);
           writeCookie('refreshToken', result.data.refresh_token);
@@ -95,7 +94,7 @@ export class AuthService {
           return throwError(() => 'Hubo un problema al renovar el token de sesión');
         }),
         tap((result : any) => {
-          this.token = result.data.access_token;
+          this.token.next(result.data.access_token);
           this.refreshToken = result.data.refresh_token;
           writeCookie('token', result.data.access_token);
           writeCookie('refreshToken', result.data.refresh_token);
@@ -119,7 +118,7 @@ export class AuthService {
 
 
   logout() {
-    this.token = '';
+    this.token.next(null);
     this.refreshToken = '';
     writeCookie('token', '');
     writeCookie('refreshToken', '');
