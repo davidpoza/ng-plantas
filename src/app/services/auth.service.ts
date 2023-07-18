@@ -110,8 +110,6 @@ export class AuthService {
               };
               localStorage.setItem('user', JSON.stringify(this.user));
             });
-
-          this.router.navigate(['/']);
         })
       )
   }
