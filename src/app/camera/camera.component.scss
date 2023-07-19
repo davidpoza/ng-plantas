@@ -1,0 +1,16 @@
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.video-container {
+  text-align: center;
+  video, canvas {
+    width: 100%;
+  }
+
+}

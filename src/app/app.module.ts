@@ -39,6 +39,7 @@ import { ProfileScreenComponent } from './profile-screen/profile-screen.componen
 import { LoaderComponent } from './loader/loader.component';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { SheetDetailScreenComponent } from './sheet-detail-screen/sheet-detail-screen.component';
+import { CameraComponent } from './camera/camera.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { SheetDetailScreenComponent } from './sheet-detail-screen/sheet-detail-s
     EncyclopediaScreenComponent,
     ProfileScreenComponent,
     LoaderComponent,
-    SheetDetailScreenComponent
+    SheetDetailScreenComponent,
+    CameraComponent
   ],
   imports: [
     BrowserModule,

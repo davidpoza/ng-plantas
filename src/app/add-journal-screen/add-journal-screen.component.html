@@ -12,7 +12,7 @@
   </div>
 </div>
 
-<form [formGroup]="journalForm" (submit)="addJournal()">
+<form [formGroup]="journalForm" (submit)="addJournal()" >
   <p>
     <mat-form-field appearance="outline">
       <mat-label>Fecha</mat-label>
@@ -20,24 +20,21 @@
       <mat-hint>DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
-      <!-- <mat-error *ngIf="contactForm.invalid">{{getErrorMessage()}}</mat-error> -->
     </mat-form-field>
   </p>
   <p>
     <mat-form-field appearance="outline">
       <mat-label>Descripción</mat-label>
       <input type="text" matInput formControlName="text" required>
-      <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
     </mat-form-field>
   </p>
 
-  <div class="uploadControl" *ngIf="type === journalEntryType.photo && !isEdit">
-    <button type="button" mat-raised-button (click)="fileInput.click()">Selecciona foto</button>
-    <input hidden (change)="onFileSelected($event)" #fileInput type="file" formControlName="photo">
+  <div class="uploadControl" *ngIf="type === journalEntryType.photo && !isEdit && !hasCapturedFile">
+    <button type="button" mat-raised-button (click)="fileInput.click()">Subir fichero foto</button>
+    <input #fileInputRef hidden (change)="onFileSelected($event)" #fileInput type="file" formControlName="photo" accept="image/png, image/jpeg">
     <span class="file-name">{{selectedFile?.name}}</span>
-    <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
   </div>
-
+  <app-camera *ngIf="type === journalEntryType.photo && !selectedFile" (capturedPhoto)="onCapturedPhoto($event)"></app-camera>
   <p class="buttons">
     <button mat-raised-button (click)="goBack()">Cancelar</button>
     <button *ngIf="!isEdit" mat-raised-button color="primary" [disabled]="!journalForm.valid">Añadir entrada</button>

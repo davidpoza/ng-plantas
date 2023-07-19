@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import {Location} from '@angular/common';
 import moment from 'moment';
@@ -27,6 +27,8 @@ export class AddJournalScreenComponent implements OnInit {
   isEdit: boolean;
   activeRoutePath!: string;
   selectedFile: any = null;
+  capturedFile!: File;
+  hasCapturedFile: boolean;
 
   constructor(
     private _location: Location,
@@ -35,14 +37,14 @@ export class AddJournalScreenComponent implements OnInit {
     private router: Router,
     private translateJournalType: TranslateJournalTypePipe,
     private journalService: JournalService,
-    private authService : AuthService,
     private loaderService: LoaderService,
     private _snackBar: MatSnackBar,
-    private uploadService: UploadfileService
+    private uploadService: UploadfileService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.activeRoutePath = this.router.url;
     this.isEdit = this.activeRoutePath.startsWith('/edit-journal');
-
+    this.hasCapturedFile = false;
 
     if (this.isEdit) {
       this.journalEntry = <IJournalEntry>this.router.getCurrentNavigation()?.extras.state?.['entry'];
@@ -117,7 +119,12 @@ export class AddJournalScreenComponent implements OnInit {
             this.loaderService.setVisibility(false);
             if (this.type === JournalEntryType.photo) {
               const form = new FormData();
-              form.append('file', this.journalForm.get('photo')?.value);
+              if (this.capturedFile) {
+                form.append('file', this.capturedFile);
+              } else {
+                form.append('file', this.journalForm.get('photo')?.value);
+              }
+
               this.uploadService.upload(form)
                 .subscribe({
                   next: imageResult => {
@@ -155,6 +162,11 @@ export class AddJournalScreenComponent implements OnInit {
         photo: file
       });
     }
+  }
 
+  onCapturedPhoto(dT: DataTransfer) {
+    this.capturedFile = dT.files[0];
+    this.hasCapturedFile = true;
+    this.changeDetectorRef.detectChanges();
   }
 }
