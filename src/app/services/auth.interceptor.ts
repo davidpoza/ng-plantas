@@ -44,7 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
           this.tokenSubject.next(null); // Reset here so that the following requests wait until the token comes back from the refreshToken call.
           return this.auth.renewToken()
             .pipe(
-              tap(() => {
+              switchMap(() => {
                 this.isRefreshingToken = false;
                 return next.handle(this.getRequestWithAuthHeader(request));
               }),
