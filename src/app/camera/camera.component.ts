@@ -7,15 +7,11 @@ import { AfterViewInit, Component, ElementRef, ViewChild, Output, EventEmitter }
   styleUrls: ['./camera.component.scss']
 })
 export class CameraComponent implements AfterViewInit {
-  WIDTH = 640;
-  HEIGHT = 480;
-
+  width!: number;
+  height!: number;
   @Output() capturedPhoto: EventEmitter<DataTransfer> = new EventEmitter<DataTransfer>();
-
   @ViewChild("video") public video!: ElementRef;
   @ViewChild("canvas") public canvas!: ElementRef;
-
-  captures: string[] = [];
   error: any;
   isCaptured: boolean = false;
 
@@ -29,19 +25,23 @@ export class CameraComponent implements AfterViewInit {
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: false,
           video: {
-            facingMode: 'environment'
+            facingMode: 'environment',
+            width: { ideal: 1920 },
+            height: { ideal: 1080 }
           }
         });
         if (stream) {
           this.video.nativeElement.srcObject = stream;
+          const stream_settings = stream.getVideoTracks()[0].getSettings();
+          this.width = stream_settings?.width || 0;
+          this.height = stream_settings?.height || 0;
           this.video.nativeElement.play();
           this.error = null;
         } else {
-          window.alert("You have no output video device")
-          this.error = "You have no output video device";
+          this.error = "Es necesario aceptar los permisos para poder capturar fotos desde la app.";
+          window.alert(this.error);
         }
       } catch (e) {
-        window.alert(e)
         this.error = e;
       }
     }
@@ -62,7 +62,7 @@ export class CameraComponent implements AfterViewInit {
   drawImageToCanvas(image: any) {
     this.canvas.nativeElement
       .getContext("2d")
-      .drawImage(image, 0, 0, this.WIDTH, this.HEIGHT);
+      .drawImage(image, 0, 0, this.width, this.height);
   }
 }
 
