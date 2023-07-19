@@ -4,7 +4,8 @@ import { config } from 'src/config';
 import { map } from 'rxjs/operators';
 import { Observable, catchError, throwError } from 'rxjs';
 
-import { IJournalEntry, IJournalEntryPatch, IJournalEntryPost, JournalEntryType } from '../models/IJournalEntry';
+import { IPaginationOptions } from 'src/app/utils/types/ipagination-options';
+import { IJournalEntry, IJournalEntryPaginatedResult, IJournalEntryPatch, IJournalEntryPost, JournalEntryType } from '../models/IJournalEntry';
 import { AuthService } from './auth.service';
 import { IResponse, IResponseArray } from '../models/IReponse';
 @Injectable({
@@ -16,10 +17,9 @@ export class JournalService {
 
   }
 
-  getJournalEntries(plantId: number) : Observable<IJournalEntry[]> {
-    return this.http.get<IResponseArray>(`${config.baseApiUrl}/items/journalEntries?filter[plantId][_eq]=${plantId}&sort[]=-timestamp`)
+  getJournalEntries(plantId: number, paginationOptions: IPaginationOptions = { page: 0, pageSize: 10 }) : Observable<IJournalEntryPaginatedResult> {
+    return this.http.get<IJournalEntryPaginatedResult>(`${config.baseApiUrl}/items/journalEntries?filter[plantId][_eq]=${plantId}&sort[]=-timestamp&limit=${paginationOptions.pageSize}&page=${paginationOptions.page+1}&meta=filter_count`)
       .pipe(
-        map((response) => response.data),
         catchError(error => {
           return throwError(() => 'Ocurrió un error al obtener el diario de la planta.');
         }),

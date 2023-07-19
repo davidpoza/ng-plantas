@@ -29,5 +29,13 @@ interface IJournalEntryPatch {
   plantId?: number,
 }
 
+interface IJournalEntryPaginatedResult {
+  data: IJournalEntry[],
+  meta: {
+    filter_count: number,
+  }
+}
 
-export { IJournalEntry, JournalEntryType, IJournalEntryPost, IJournalEntryPatch };
+
+
+export { IJournalEntry, JournalEntryType, IJournalEntryPost, IJournalEntryPatch, IJournalEntryPaginatedResult };

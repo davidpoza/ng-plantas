@@ -17,7 +17,7 @@
       <app-care-instructions [sheet]="sheet"></app-care-instructions>
     </mat-tab>
     <mat-tab label="Diario">
-      <app-journal [journal]="journal" [plant]="plant" (refreshJournal)="refresh()"></app-journal>
+      <app-journal [journal]="journal" [plant]="plant" (refreshJournal)="refresh($event)" [journalPaginationOptions]="journalPaginationOptions"></app-journal>
     </mat-tab>
     <mat-tab label="Fotos">
       <app-photos [journalPhotos]="journalPhotos"></app-photos>

@@ -14,7 +14,13 @@ body {
 
 }
 
+// ##### Overrides ######
+
 
 .panel .mat-expansion-panel-body{
   padding: 0 !important;
+}
+
+.journalPaginator .mat-mdc-paginator-outer-container .mat-mdc-paginator-container {
+  justify-content: center !important;
 }

@@ -17,6 +17,7 @@ import localeEs from '@angular/common/locales/es';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 registerLocaleData(localeEs);
 
@@ -46,7 +47,8 @@ const MY_DATE_FORMATS = {
     MatCardModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatPaginatorModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' },

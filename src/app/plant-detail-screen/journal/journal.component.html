@@ -1,3 +1,15 @@
-<div *ngFor="let entry of journal" class="container">
-  <app-journal-item [entry]="entry" [plant]="plant" (refreshJournal)="propagateEvent()"></app-journal-item>
+<div class="container">
+  <app-journal-item *ngFor="let entry of journal" [entry]="entry" [plant]="plant" (refreshJournal)="propagateEvent()"></app-journal-item>
+  <mat-paginator
+    *ngIf="journalPaginationOptions?.totalItems"
+    class="journalPaginator"
+    [length]="journalPaginationOptions.totalItems"
+    [pageSize]="journalPaginationOptions.pageSize"
+    [pageIndex]="journalPaginationOptions.page"
+    aria-label="Selecciona página"
+    [showFirstLastButtons]="true"
+    (page)="onChangePage($event)"
+    [hidePageSize]="true"
+  >
+  </mat-paginator>
 </div>

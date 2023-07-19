@@ -11,6 +11,7 @@ import { IJournalEntry } from 'src/app/models/IJournalEntry';
 import { LoaderService } from '../services/loader.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { config } from 'src/config';
+import { IPaginationOptions } from '../utils/types/ipagination-options';
 
 @Component({
   selector: 'app-plant-detail-screen',
@@ -22,7 +23,12 @@ export class PlantDetailScreenComponent implements OnInit {
   sheet!: IPlantSheet;
   journal!: IJournalEntry[];
   journalPhotos!: any[];
-  @Output() refreshJournal: EventEmitter<void> = new EventEmitter<void>();
+  @Output() refreshJournal: EventEmitter<number> = new EventEmitter<number>();
+  journalPaginationOptions : IPaginationOptions = {
+    page: 0,
+    pageSize: 10,
+    totalItems: 0,
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -73,12 +79,14 @@ export class PlantDetailScreenComponent implements OnInit {
 
   onTabChange(tabIndex: number) {
     if (tabIndex === 1) {
+      this.journalPaginationOptions.totalItems = 0;
       this.loaderService.setVisibility(true);
       this.journalService.getJournalEntries(this.plant.id)
         .subscribe({
           next: journalResponse => {
             this.loaderService.setVisibility(false);
-            this.journal = [...journalResponse];
+            this.journal = [...journalResponse.data];
+            this.journalPaginationOptions.totalItems = journalResponse.meta.filter_count;
           },
           error: (e: string) => {
             this.loaderService.setVisibility(false);
@@ -105,13 +113,16 @@ export class PlantDetailScreenComponent implements OnInit {
     }
   }
 
-  refresh() {
+  refresh(page?: number) {
+    console.log(page )
+    if (page != undefined) this.journalPaginationOptions.page = page;
     this.loaderService.setVisibility(true);
-    this.journalService.getJournalEntries(this.plant.id)
+    this.journalService.getJournalEntries(this.plant.id, this.journalPaginationOptions)
       .subscribe({
         next: journalResponse => {
           this.loaderService.setVisibility(false);
-          this.journal = [...journalResponse];
+          this.journal = [...journalResponse.data];
+          this.journalPaginationOptions.totalItems = journalResponse.meta.filter_count;
         },
         error: (e: string) => {
           this.loaderService.setVisibility(false);
