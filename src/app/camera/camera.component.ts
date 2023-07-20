@@ -59,7 +59,7 @@ export class CameraComponent implements AfterViewInit {
     this.drawImageToCanvas(this.video.nativeElement);
     this.isCaptured = true;
     this.canvas.nativeElement.toBlob((blob: any) => {
-      const file = new File( [ blob ], "mycanvas.jpg" );
+      const file = new File( [ blob ], "mycanvas.jpg", { type: 'image/jpeg' } );
       const dT = new DataTransfer();
       dT.items.add( file );
       this.capturedPhoto.emit(dT);
