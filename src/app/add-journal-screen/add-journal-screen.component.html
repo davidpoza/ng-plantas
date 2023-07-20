@@ -34,7 +34,7 @@
     <input #fileInputRef hidden (change)="onFileSelected($event)" #fileInput type="file" formControlName="photo" accept="image/png, image/jpeg">
     <span class="file-name">{{selectedFile?.name}}</span>
   </div>
-  <app-camera *ngIf="type === journalEntryType.photo && !selectedFile" (capturedPhoto)="onCapturedPhoto($event)"></app-camera>
+  <app-camera *ngIf="isMobile && type === journalEntryType.photo && !selectedFile" (capturedPhoto)="onCapturedPhoto($event)"></app-camera>
   <p class="buttons">
     <button mat-raised-button (click)="goBack()">Cancelar</button>
     <button *ngIf="!isEdit" mat-raised-button color="primary" [disabled]="!journalForm.valid">Añadir entrada</button>

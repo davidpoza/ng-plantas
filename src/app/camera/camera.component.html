@@ -1,7 +1,7 @@
 <div class="video-container" *ngIf="!error">
-	<video [class.show]="!isCaptured" [class.hide]="isCaptured" #video id="video" [width]="width" autoplay></video>
+	<video [class.show]="!isCaptured" [class.hide]="isCaptured" #video id="video" [width]="width" [height]="height" (click)="capture()" autoplay></video>
+  <span>Pulsa en la imagen para capturar la foto</span>
 	<canvas [class.show]="isCaptured" [class.hide]="!isCaptured" #canvas id="canvas" [width]="width" [height]="height"></canvas>
-  <button mat-raised-button class="btn btn-primary" *ngIf="!isCaptured" (click)="capture()">Tomar foto</button>
 </div>
 
 

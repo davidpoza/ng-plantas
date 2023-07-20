@@ -8,10 +8,10 @@ import { IPlant } from '../models/Iplant';
 import { IJournalEntry, JournalEntryType } from '../models/IJournalEntry';
 import { TranslateJournalTypePipe } from '../pipes/translate-journal-type.pipe';
 import { JournalService } from '../services/journal.service';
-import { AuthService } from '../services/auth.service';
 import { LoaderService } from '../services/loader.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UploadfileService } from '../services/uploadfile.service';
+import { isMobile } from '../utils/helpers';
 
 @Component({
   selector: 'app-add-journal-screen',
@@ -29,6 +29,7 @@ export class AddJournalScreenComponent implements OnInit {
   selectedFile: any = null;
   capturedFile!: File;
   hasCapturedFile: boolean;
+  isMobile: boolean = false;
 
   constructor(
     private _location: Location,
@@ -42,6 +43,7 @@ export class AddJournalScreenComponent implements OnInit {
     private uploadService: UploadfileService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
+    this.isMobile = isMobile();
     this.activeRoutePath = this.router.url;
     this.isEdit = this.activeRoutePath.startsWith('/edit-journal');
     this.hasCapturedFile = false;

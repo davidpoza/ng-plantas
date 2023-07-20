@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, Output, EventEmitter } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, ViewChild, Output, EventEmitter, ChangeDetectorRef } from "@angular/core";
+
 
 
 @Component({
@@ -15,6 +16,10 @@ export class CameraComponent implements AfterViewInit {
   error: any;
   isCaptured: boolean = false;
 
+  constructor(private changeDetectorRef: ChangeDetectorRef){
+
+  }
+
   async ngAfterViewInit() {
     await this.setupDevices();
   }
@@ -26,6 +31,7 @@ export class CameraComponent implements AfterViewInit {
           audio: false,
           video: {
             facingMode: 'environment',
+            aspectRatio: 16/9,
             width: { ideal: 1920 },
             height: { ideal: 1080 }
           }
@@ -33,8 +39,10 @@ export class CameraComponent implements AfterViewInit {
         if (stream) {
           this.video.nativeElement.srcObject = stream;
           const stream_settings = stream.getVideoTracks()[0].getSettings();
+
           this.width = stream_settings?.width || 0;
-          this.height = stream_settings?.height || 0;
+            this.height = stream_settings?.height || 0;
+
           this.video.nativeElement.play();
           this.error = null;
         } else {
@@ -51,15 +59,23 @@ export class CameraComponent implements AfterViewInit {
     this.drawImageToCanvas(this.video.nativeElement);
     this.isCaptured = true;
     this.canvas.nativeElement.toBlob((blob: any) => {
-      const file = new File( [ blob ], "mycanvas.png" );
+      const file = new File( [ blob ], "mycanvas.jpg" );
       const dT = new DataTransfer();
       dT.items.add( file );
       this.capturedPhoto.emit(dT);
 
-    });
+    }, 'image/jpeg', 0.9);
   }
 
   drawImageToCanvas(image: any) {
+    if(window.innerHeight < window.innerWidth){
+      if (this.height > this.width) {
+        const temp = this.height;
+        this.height = this.width;
+        this.width = temp;
+        this.changeDetectorRef.detectChanges();
+      }
+    }
     this.canvas.nativeElement
       .getContext("2d")
       .drawImage(image, 0, 0, this.width, this.height);
