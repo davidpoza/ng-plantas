@@ -40,6 +40,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { SheetDetailScreenComponent } from './sheet-detail-screen/sheet-detail-screen.component';
 import { CameraComponent } from './camera/camera.component';
+import { TimeSincePipe } from './pipes/time-since.pipe';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { CameraComponent } from './camera/camera.component';
     ProfileScreenComponent,
     LoaderComponent,
     SheetDetailScreenComponent,
-    CameraComponent
+    CameraComponent,
+    TimeSincePipe
   ],
   imports: [
     BrowserModule,

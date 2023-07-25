@@ -5,8 +5,8 @@
   <div class="info" (click)="onClick(plant.id)">
 
     <h3>{{ plant.name | capitalizeFirst }}</h3>
-    <p class="location">{{ (plant.place || 'No hay datos del último riego') | capitalizeFirst }}</p>
-    <p class="lastJournal">{{ (plant.lastJournal?.text || 'No hay datos del último riego') | capitalizeFirst }}</p>
+    <p class="location">{{ plant.place | capitalizeFirst }}</p>
+    <p class="lastJournal">{{ (plant.lastJournal?.timestamp  | timeSince) || 'No hay datos del último riego' | capitalizeFirst }}</p>
   </div>
   <div class="buttons">
     <button mat-icon-button [matMenuTriggerFor]="menu">
